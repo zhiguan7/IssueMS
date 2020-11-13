@@ -1,4 +1,4 @@
-package com.ibm.Tables;
+package ibm.com.Tables;
 
 import java.util.Date;
 
