@@ -1,2 +1,8 @@
 server:
   port: 8888
+spring:
+  datasource:
+    username: root
+    password: root #修改为自己的数据库密码
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/issue?useUnicode=true&characterEncoding=UTF- 8&useSSL=false
