@@ -3,69 +3,106 @@ package com.ibm.tables;
 import java.util.Date;
 
 public class Issue {
-	
-	private int issue_id;
-	private String issue_nameString;
+
+	private int issueId;
+	private String issueName;
 	private String status;
-	private Date create_date;
-	private String create_man;
+	private Date createDate;
+	private String createMan;
 	private int level;
-	private int event_id;
 	private String type;
 	private String beta;
-	public int getIssue_id() {
-		return issue_id;
+	private int userId;
+
+	public Issue() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setIssue_id(int issue_id) {
-		this.issue_id = issue_id;
+
+	public Issue(int issueId, String issueName, String status, Date createDate, String createMan, int level,
+			String type, String beta, int userId) {
+		super();
+		this.issueId = issueId;
+		this.issueName = issueName;
+		this.status = status;
+		this.createDate = createDate;
+		this.createMan = createMan;
+		this.level = level;
+		this.type = type;
+		this.beta = beta;
+		this.userId = userId;
 	}
-	public String getIssue_nameString() {
-		return issue_nameString;
+
+	public int getIssueId() {
+		return issueId;
 	}
-	public void setIssue_nameString(String issue_nameString) {
-		this.issue_nameString = issue_nameString;
+
+	public void setIssueId(int issueId) {
+		this.issueId = issueId;
 	}
+
+	public String getIssueName() {
+		return issueName;
+	}
+
+	public void setIssueName(String issueName) {
+		this.issueName = issueName;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getCreateMan() {
+		return createMan;
+	}
+
+	public void setCreateMan(String createMan) {
+		this.createMan = createMan;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getCreate_date() {
-		return create_date;
-	}
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
-	}
-	public String getCreate_man() {
-		return create_man;
-	}
-	public void setCreate_man(String create_man) {
-		this.create_man = create_man;
-	}
+
 	public int getLevel() {
 		return level;
 	}
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	public int getEvent_id() {
-		return event_id;
-	}
-	public void setEvent_id(int event_id) {
-		this.event_id = event_id;
-	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public String getBeta() {
 		return beta;
 	}
+
 	public void setBeta(String beta) {
 		this.beta = beta;
 	}
-	
+
 }

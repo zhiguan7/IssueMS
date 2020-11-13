@@ -4,74 +4,105 @@ import java.util.Date;
 
 public class Event {
 
-	private int event_id;
-	private int issue_id;
-	private int user_id;
-	Date update_date;
-	String update_main;
-	String step;
-	String assignor;
-	String solution;
-	public int getEvent_id() {
-		return event_id;
+	private int eventId;
+	private int issueId;
+	private Date updateDate;
+	private String updateMain;
+	private String step;
+	private String assignor;
+	private String solution;
+	private Date plan_date;
+	private Date final_date;
+
+	public Event() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setEvent_id(int event_id) {
-		this.event_id = event_id;
+
+	public Event(int eventId, int issueId, Date updateDate, String updateMain, String step, String assignor,
+			String solution, Date plan_date, Date final_date) {
+		super();
+		this.eventId = eventId;
+		this.issueId = issueId;
+		this.updateDate = updateDate;
+		this.updateMain = updateMain;
+		this.step = step;
+		this.assignor = assignor;
+		this.solution = solution;
+		this.plan_date = plan_date;
+		this.final_date = final_date;
 	}
-	public int getIssue_id() {
-		return issue_id;
+
+	public int getEventId() {
+		return eventId;
 	}
-	public void setIssue_id(int issue_id) {
-		this.issue_id = issue_id;
+
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
-	public int getUser_id() {
-		return user_id;
+
+	public int getIssueId() {
+		return issueId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public void setIssueId(int issueId) {
+		this.issueId = issueId;
 	}
-	public Date getUpdate_date() {
-		return update_date;
+
+	public Date getUpdateDate() {
+		return updateDate;
 	}
-	public void setUpdate_date(Date update_date) {
-		this.update_date = update_date;
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
-	public String getUpdate_main() {
-		return update_main;
+
+	public String getUpdateMain() {
+		return updateMain;
 	}
-	public void setUpdate_main(String update_main) {
-		this.update_main = update_main;
+
+	public void setUpdateMain(String updateMain) {
+		this.updateMain = updateMain;
 	}
+
 	public String getStep() {
 		return step;
 	}
+
 	public void setStep(String step) {
 		this.step = step;
 	}
+
 	public String getAssignor() {
 		return assignor;
 	}
+
 	public void setAssignor(String assignor) {
 		this.assignor = assignor;
 	}
+
 	public String getSolution() {
 		return solution;
 	}
+
 	public void setSolution(String solution) {
 		this.solution = solution;
 	}
+
 	public Date getPlan_date() {
 		return plan_date;
 	}
+
 	public void setPlan_date(Date plan_date) {
 		this.plan_date = plan_date;
 	}
+
 	public Date getFinal_date() {
 		return final_date;
 	}
+
 	public void setFinal_date(Date final_date) {
 		this.final_date = final_date;
 	}
-	Date plan_date;
-	Date final_date;
+
 }
