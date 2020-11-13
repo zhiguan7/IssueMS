@@ -14,29 +14,30 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="config"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="src" path="src/main/resource"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/hibernate-commons-annotations-4.0.5.Final.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/hibernate-core-4.3.11.Final.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/jandex-1.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/javassist-3.18.1-GA.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/jboss-logging-3.1.3.GA.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/jboss-logging-annotations-1.2.0.Beta1.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/mysql-connector-java-5.1.18-bin.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/slf4j-api-1.7.21.jar"/>
-	<classpathentry kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/issueMS/lib/slf4j-log4j12-1.7.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/antlr-2.7.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/hibernate-commons-annotations-4.0.5.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/hibernate-core-4.3.11.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/jandex-1.1.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/jboss-logging-3.1.3.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/jboss-logging-annotations-1.2.0.Beta1.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/log4j-1.2.17.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/slf4j-api-1.7.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/我的文档/Documents/GitHub/IssueMS/IssueMS/lib/slf4j-log4j12-1.7.21.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
