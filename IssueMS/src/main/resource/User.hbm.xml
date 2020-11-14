@@ -5,7 +5,7 @@
 	<class name="com.ibm.tables.User" table="USER">
 		<id name="userId" type="java.lang.Integer">
 			<column name="user_id"></column>
-			<generator class="native"></generator>
+			<generator class="assigned"></generator>
 		</id>
 		<property name="userName" type="java.lang.String">
 			<column name="user_name"></column>
