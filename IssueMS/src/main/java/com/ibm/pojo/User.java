@@ -1,4 +1,4 @@
-package com.ibm.tables;
+package com.ibm.pojo;
 
 import java.util.Date;
 
