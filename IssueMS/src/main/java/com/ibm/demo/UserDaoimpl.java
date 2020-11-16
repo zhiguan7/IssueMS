@@ -11,14 +11,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import com.ibm.pojo.User;
+import com.ibm.tables.User;
 
 public class UserDaoimpl implements UserDao {
 
-	private SessionFactory factory = new Configuration().configure().buildSessionFactory();
+	private static SessionFactory factory;
 
-		
-	
+	static {
+		factory = new Configuration().configure().buildSessionFactory();
+	}
 
 //测试方法可行行
 //	public static void main(String[] args) throws SQLException, IOException {
@@ -53,8 +54,7 @@ public class UserDaoimpl implements UserDao {
 //		factory.close();
 //	}
 
-	public void insert(User user) throws SQLException, IOException {
-		
+	private static void insert(User user) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.save(user);
@@ -62,7 +62,7 @@ public class UserDaoimpl implements UserDao {
 		session.close();
 	}
 
-	public List<User> ueryAll() throws SQLException, IOException {
+	private static void ueryAll() throws SQLException, IOException {
 		List<User> users = factory.openSession().createQuery("FROM User").list();
 
 		for (User user : users) {
@@ -71,10 +71,10 @@ public class UserDaoimpl implements UserDao {
 					+ ", createdate=" + DateFormat.getDateInstance().format(user.getCreateDate()) + ", status="
 					+ user.getStatus());
 		}
-		return users;
+
 	}
 
-	public void delete(User user) throws SQLException, IOException {
+	private static void delete(User user) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -83,7 +83,7 @@ public class UserDaoimpl implements UserDao {
 		session.close();
 	}
 
-	public void update(User user) throws SQLException, IOException {
+	private static void update(User user) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.update(user);
