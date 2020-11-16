@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2020-9-23 0:43:13 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.ibm.tables.Issue" table="issue">
+        <id name="issueId" type="java.lang.Integer">
+            <column name="issue_id" />
+            <generator class="native" />
+        </id>
+        <property name="issueName" type="java.lang.String">
+            <column name="issue_name" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+        <property name="createDate" type="java.util.Date">
+            <column name="create_date" />
+        </property>
+        <property name="createMan" type="java.lang.String">
+            <column name="create_man" />
+        </property>
+        <property name="level" type="java.lang.Integer">
+            <column name="level" />
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="type" />
+        </property>
+        <property name="beta" type="java.lang.String">
+            <column name="beta" />
+        </property>
+        <property name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+        </property>
+    </class>
+</hibernate-mapping>

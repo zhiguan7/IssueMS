@@ -12,6 +12,6 @@
 #  Cattle:
 #    name: 老黄牛
 #    age: 5
-
+server:  port: 8888
 
   
