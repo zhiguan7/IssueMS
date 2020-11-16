@@ -1,17 +1,0 @@
-#person:
-#  last-name: 五指山
-#  sex: 男
-#  age: 20
-#  birth: 2000/01/01
-#  map:
-#    property: v1
-#    form: v2
-#  list:
-#    - list1
-#    - list2
-#  Cattle:
-#    name: 老黄牛
-#    age: 5
-server:  port: 8888
-
-  
