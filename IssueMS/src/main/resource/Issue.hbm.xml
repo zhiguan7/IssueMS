@@ -6,7 +6,7 @@
     <class name="com.ibm.tables.Issue" table="issue">
         <id name="issueId" type="java.lang.Integer">
             <column name="issue_id" />
-            <generator class="native" />
+            <generator class="assigned" />
         </id>
         <property name="issueName" type="java.lang.String">
             <column name="issue_name" />

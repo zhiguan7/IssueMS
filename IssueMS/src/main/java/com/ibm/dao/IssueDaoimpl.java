@@ -1,4 +1,4 @@
-package com.ibm.demo;
+package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.ibm.tables.User;
 
-public class UserDaoimpl implements UserDao {
+public class IssueDaoimpl implements IssueDao {
 
 	private static SessionFactory factory;
 
@@ -21,7 +21,7 @@ public class UserDaoimpl implements UserDao {
 		factory = new Configuration().configure().buildSessionFactory();
 	}
 
-//²âÊÔ·½·¨¿ÉÐÐÐÐ
+//ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
 //		System.out.println("---------------------------");
@@ -31,8 +31,8 @@ public class UserDaoimpl implements UserDao {
 //		user1.setPassword("8888888");
 //		user1.setEmail("10000@qq.com");
 //		user1.setCreateDate(new Date());
-//		user1.setIdentity("¹ÜÀíÔ±");
-//		user1.setStatus("×¢²á");
+//		user1.setIdentity("ï¿½ï¿½ï¿½ï¿½Ô±");
+//		user1.setStatus("×¢ï¿½ï¿½");
 //		user1.toString();
 //		insert(user1);
 //		ueryAll();
@@ -45,8 +45,8 @@ public class UserDaoimpl implements UserDao {
 //		user3.setPassword("8888888");
 //		user3.setEmail("10000@qq.com");
 //		user3.setCreateDate(new Date());
-//		user3.setIdentity("¹ÜÀíÔ±");
-//		user3.setStatus("×¢²á");
+//		user3.setIdentity("ï¿½ï¿½ï¿½ï¿½Ô±");
+//		user3.setStatus("×¢ï¿½ï¿½");
 //		user3.toString();
 //		update(user3);
 //		ueryAll();
