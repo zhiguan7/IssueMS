@@ -6,9 +6,7 @@
     <class name="com.ibm.tables.Issue" table="ISSUE">
         <id name="issueId" type="java.lang.Integer">
             <column name="issue_id" />
-            <generator class="foreign">
-				<param name="property">event</param>
-			</generator>
+            <generator class="assigned" />
         </id>
         <property name="issueName" type="java.lang.String">
             <column name="issue_name" />
