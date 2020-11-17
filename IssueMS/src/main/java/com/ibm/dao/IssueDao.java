@@ -17,4 +17,7 @@ public interface IssueDao {
 
 	// 更新
 	public void update(Issue issue) throws SQLException, IOException;
+	
+	//模糊查询
+    public void fuzzySearch(Issue issue) throws SQLException, IOException;
 }

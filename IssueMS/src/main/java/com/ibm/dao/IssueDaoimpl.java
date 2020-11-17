@@ -6,10 +6,12 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.junit.jupiter.api.Test;
 
 import com.ibm.tables.Issue;
 import com.ibm.tables.User;
@@ -63,15 +65,10 @@ public class IssueDaoimpl implements IssueDao {
 		List<Issue> issues = factory.openSession().createQuery("FROM Issue").list();
 
 		for (Issue issue : issues) {
-			System.out.println("id=" + issue.getUserId() 
-					+ ", name=" + issue.getIssueName() 
-					+ ", status=" + issue.getStatus() 
-					+ ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
-					+ ", create_man=" + issue.getCreateMan() 
-					+ ", level=" + issue.getLevel() 
-					+ ", type="+ issue.getType() 
-					+ ", beta=" + issue.getBeta() 
-					+ ", user_id=" + issue.getUserId());
+			System.out.println("id=" + issue.getUserId() + ", name=" + issue.getIssueName() + ", status="
+					+ issue.getStatus() + ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
+					+ ", create_man=" + issue.getCreateMan() + ", level=" + issue.getLevel() + ", type="
+					+ issue.getType() + ", beta=" + issue.getBeta() + ", user_id=" + issue.getUserId());
 		}
 
 	}
@@ -91,5 +88,22 @@ public class IssueDaoimpl implements IssueDao {
 		session.update(issue);
 		tx.commit();
 		session.close();
+	}
+
+	@Test
+	public void fuzzySearch(Issue issue) throws SQLException, IOException {
+
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(Issue.class);
+		
+		List<Issue> list = criteria.list();
+		System.out.println(list);
+		
+		tx.commit();
+		session.close();
+		
+		
+
 	}
 }
