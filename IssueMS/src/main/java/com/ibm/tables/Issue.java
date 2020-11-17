@@ -103,4 +103,11 @@ public class Issue {
 		this.beta = beta;
 	}
 
+	@Override
+	public String toString() {
+		return "Issue [issueId=" + issueId + ", issueName=" + issueName + ", status=" + status + ", createDate="
+				+ createDate + ", createMan=" + createMan + ", level=" + level + ", type=" + type + ", beta=" + beta
+				+ ", userId=" + userId + "]";
+	}
+
 }

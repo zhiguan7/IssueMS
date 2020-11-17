@@ -11,6 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
@@ -52,11 +54,16 @@ public class IssueDaoimpl implements IssueDao {
 //		factory.close();
 //	}
 	
-//	public static void main(String[] args) throws SQLException, IOException {
-//		Issue issue = new Issue();
-//		IssueDaoimpl i = new IssueDaoimpl();
-//		i.fuzzySearch(issue);
-//	}
+	public static void main(String[] args) throws SQLException, IOException {
+		Issue issue = new Issue();
+		IssueDaoimpl i = new IssueDaoimpl();
+//		issue.setIssueId(1);
+//		issue.setUserId(1);
+//		issue.setBeta("12343214");
+		issue.setCreateMan("三");
+//		i.insert(issue);
+		i.fuzzySearch(issue);
+	}
 	
 	
 
@@ -103,6 +110,13 @@ public class IssueDaoimpl implements IssueDao {
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
 		
+		List<Issue> list = criteria.add(
+	            Restrictions.or(Restrictions.eq("issueId", issue.getIssueId()),
+	            Restrictions.or(Restrictions.eq("status", issue.getStatus()),
+	                Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
+	                Restrictions.or(Restrictions.eq("createDate",issue.getCreateDate())))))).list();
+		
+		for(Issue l:list) System.out.println(l);
 		
 		tx.commit();
 		session.close();
