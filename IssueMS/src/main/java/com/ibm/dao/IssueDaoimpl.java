@@ -82,7 +82,7 @@ public class IssueDaoimpl implements IssueDao {
 		session.close();
 	}
 
-	public void ueryAll() throws SQLException, IOException {
+	public void queryAll() throws SQLException, IOException {
 		List<Issue> issues = factory.openSession().createQuery("FROM Issue").list();
 
 		for (Issue issue : issues) {

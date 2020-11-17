@@ -7,7 +7,7 @@ public class Event {
 	private int eventId;
 	private int issueId;
 	private Date updateDate;
-	private String updateMain;
+	private String updateMan;
 	private String step;
 	private String assignor;
 	private String solution;
@@ -25,7 +25,7 @@ public class Event {
 		this.eventId = eventId;
 		this.issueId = issueId;
 		this.updateDate = updateDate;
-		this.updateMain = updateMain;
+		this.updateMan = updateMain;
 		this.step = step;
 		this.assignor = assignor;
 		this.solution = solution;
@@ -58,11 +58,11 @@ public class Event {
 	}
 
 	public String getUpdateMain() {
-		return updateMain;
+		return updateMan;
 	}
 
 	public void setUpdateMain(String updateMain) {
-		this.updateMain = updateMain;
+		this.updateMan = updateMan;
 	}
 
 	public String getStep() {

@@ -14,7 +14,7 @@
 		<property name="format_sql">true</property>
 		<mapping resource="User.hbm.xml" />
 		<mapping resource="Issue.hbm.xml" />
-
+		<mapping resource="Event.hbm.xml" />
 
 	</session-factory>
 
