@@ -11,17 +11,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.ibm.tables.Issue;
 import com.ibm.tables.User;
 
 public class IssueDaoimpl implements IssueDao {
 
-	private static SessionFactory factory;
+	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
-	static {
-		factory = new Configuration().configure().buildSessionFactory();
-	}
-
-//���Է���������
+//测试代码
 //	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
 //		System.out.println("---------------------------");
@@ -54,39 +51,44 @@ public class IssueDaoimpl implements IssueDao {
 //		factory.close();
 //	}
 
-	private static void insert(User user) throws SQLException, IOException {
+	public void insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.save(user);
+		session.save(issue);
 		tx.commit();
 		session.close();
 	}
 
-	private static void ueryAll() throws SQLException, IOException {
-		List<User> users = factory.openSession().createQuery("FROM User").list();
+	public void ueryAll() throws SQLException, IOException {
+		List<Issue> issues = factory.openSession().createQuery("FROM Issue").list();
 
-		for (User user : users) {
-			System.out.println("id=" + user.getUserId() + ", name=" + user.getUserName() + ", password="
-					+ user.getPassword() + ", email=" + user.getEmail() + ", identity=" + user.getIdentity()
-					+ ", createdate=" + DateFormat.getDateInstance().format(user.getCreateDate()) + ", status="
-					+ user.getStatus());
+		for (Issue issue : issues) {
+			System.out.println("id=" + issue.getUserId() 
+					+ ", name=" + issue.getIssueName() 
+					+ ", status=" + issue.getStatus() 
+					+ ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
+					+ ", create_man=" + issue.getCreateMan() 
+					+ ", level=" + issue.getLevel() 
+					+ ", type="+ issue.getType() 
+					+ ", beta=" + issue.getBeta() 
+					+ ", user_id=" + issue.getUserId());
 		}
 
 	}
 
-	private static void delete(User user) throws SQLException, IOException {
+	public void delete(Issue issue) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.delete(user);
+		session.delete(issue);
 		tx.commit();
 		session.close();
 	}
 
-	private static void update(User user) throws SQLException, IOException {
+	public void update(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.update(user);
+		session.update(issue);
 		tx.commit();
 		session.close();
 	}
