@@ -2,6 +2,8 @@ package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
 import com.ibm.tables.Issue;
 
 public interface IssueDao {
@@ -18,5 +20,8 @@ public interface IssueDao {
 	public void update(Issue issue) throws SQLException, IOException;
 	
 	//模糊查询
-    public void fuzzySearch(Issue issue) throws SQLException, IOException;
+    public List<Issue> searchWithFuzzy(Issue issue) throws SQLException, IOException;
+    
+    //分页查询
+    public List<Issue> searchWithPage(int pageIndex) throws SQLException, IOException;
 }

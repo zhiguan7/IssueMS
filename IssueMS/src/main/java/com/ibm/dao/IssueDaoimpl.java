@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,14 +15,19 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 
 public class IssueDaoimpl implements IssueDao {
 
+	private final static int PAGE_SIZE = 20;
+	
+	
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
+	
 //测试代码
 //	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
@@ -54,16 +61,16 @@ public class IssueDaoimpl implements IssueDao {
 //		factory.close();
 //	}
 	
-	public static void main(String[] args) throws SQLException, IOException {
-		Issue issue = new Issue();
-		IssueDaoimpl i = new IssueDaoimpl();
-//		issue.setIssueId(1);
-//		issue.setUserId(1);
-//		issue.setBeta("12343214");
-		issue.setCreateMan("三");
-//		i.insert(issue);
-		i.fuzzySearch(issue);
-	}
+//	public static void main(String[] args) throws SQLException, IOException {
+//		Issue issue = new Issue();
+//		IssueDaoimpl i = new IssueDaoimpl();
+////		issue.setIssueId(1);
+////		issue.setUserId(1);
+////		issue.setBeta("12343214");
+////		issue.setCreateMan("三");
+////		i.insert(issue);
+////		i.fuzzySearch(issue);
+//	}
 	
 	
 
@@ -104,24 +111,41 @@ public class IssueDaoimpl implements IssueDao {
 		session.close();
 	}
 	
-	public void fuzzySearch(Issue issue) throws SQLException, IOException {
+	
+	public List<Issue> searchWithFuzzy(Issue issue) throws SQLException, IOException {
 
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
 		
+		@SuppressWarnings("unchecked")
 		List<Issue> list = criteria.add(
 	            Restrictions.or(Restrictions.eq("issueId", issue.getIssueId()),
 	            Restrictions.or(Restrictions.eq("status", issue.getStatus()),
-	                Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
-	                Restrictions.or(Restrictions.eq("createDate",issue.getCreateDate())))))).list();
-		
-		for(Issue l:list) System.out.println(l);
+	            Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
+	            Restrictions.or(Restrictions.eq("createDate",issue.getCreateDate())))))).list();
 		
 		tx.commit();
 		session.close();
-		
-		
+		return list;
+	}
 
+	@Override
+	public List<Issue> searchWithPage(int pageIndex) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		@SuppressWarnings("deprecation")
+		Criteria criteria = session.createCriteria(Issue.class);
+		
+		criteria.setFirstResult((pageIndex-1)*PAGE_SIZE); //需要修改
+		criteria.setMaxResults(PAGE_SIZE);
+		
+		List<Issue> list = criteria.list();
+		
+		tx.commit();
+		session.close();
+		return list;
 	}
 }
