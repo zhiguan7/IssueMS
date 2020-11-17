@@ -14,15 +14,9 @@ public class Issue {
 	private String beta;
 	private int userId;
 
-	public Issue() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Issue(int issueId, String issueName, String status, Date createDate, String createMan, int level,
+	public Issue(String issueName, String status, Date createDate, String createMan, int level,
 			String type, String beta, int userId) {
 		super();
-		this.issueId = issueId;
 		this.issueName = issueName;
 		this.status = status;
 		this.createDate = createDate;
@@ -31,6 +25,10 @@ public class Issue {
 		this.type = type;
 		this.beta = beta;
 		this.userId = userId;
+	}
+
+	public Issue() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getIssueId() {

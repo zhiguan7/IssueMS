@@ -11,10 +11,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.junit.jupiter.api.Test;
 
+import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
-import com.ibm.tables.User;
 
 public class IssueDaoimpl implements IssueDao {
 
@@ -52,6 +51,14 @@ public class IssueDaoimpl implements IssueDao {
 //
 //		factory.close();
 //	}
+	
+//	public static void main(String[] args) throws SQLException, IOException {
+//		Issue issue = new Issue();
+//		IssueDaoimpl i = new IssueDaoimpl();
+//		i.fuzzySearch(issue);
+//	}
+	
+	
 
 	public void insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
@@ -89,16 +96,13 @@ public class IssueDaoimpl implements IssueDao {
 		tx.commit();
 		session.close();
 	}
-
-	@Test
+	
 	public void fuzzySearch(Issue issue) throws SQLException, IOException {
 
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
 		
-		List<Issue> list = criteria.list();
-		System.out.println(list);
 		
 		tx.commit();
 		session.close();

@@ -2,7 +2,6 @@ package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import com.ibm.tables.Issue;
 
 public interface IssueDao {

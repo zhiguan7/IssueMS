@@ -18,19 +18,20 @@ public class UserDaoimpl implements UserDao {
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
 //  测试代码
-//	public static void main(String[] args) throws SQLException, IOException {
+	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
 //		System.out.println("---------------------------");
-//		User user1 = new User();
-//		user1.setUserId(6);
-//		user1.setUserName("ղķ˹");
-//		user1.setPassword("8888888");
-//		user1.setEmail("10000@qq.com");
-//		user1.setCreateDate(new Date());
-//		user1.setIdentity("����Ա");
-//		user1.setStatus("ע��");
-//		user1.toString();
-//		insert(user1);
+		UserDaoimpl u = new UserDaoimpl();
+		User user1 = new User();
+		user1.setUserId(6);
+		user1.setUserName("ղķ˹");
+		user1.setPassword("8888888");
+		user1.setEmail("10000@qq.com");
+		user1.setCreateDate(new Date());
+		user1.setIdentity("����Ա");
+		user1.setStatus("ע��");
+		user1.toString();
+		u.insert(user1);
 //		ueryAll();
 //		User user2 = new User();
 //		user2.setUserId(6);
@@ -48,7 +49,7 @@ public class UserDaoimpl implements UserDao {
 //		ueryAll();
 //
 //		factory.close();
-//	}
+	}
 
 	public void insert(User user) throws SQLException, IOException {
 		Session session = factory.openSession();
