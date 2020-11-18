@@ -90,4 +90,12 @@ public class UserDaoSevice implements UserDao {
 		tx.commit();
 		session.close();
 	}
+
+	public void login(int userId, String password) throws SQLException, IOException {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		User user = (User) session.get(User.class, userId);
+		tx.commit();
+		session.close();
+	}
 }
