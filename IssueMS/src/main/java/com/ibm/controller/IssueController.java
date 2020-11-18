@@ -20,23 +20,47 @@ public class IssueController {
 	@Autowired
 	private IssueDao issueDao;
 
+	//分页
 	@RequestMapping(value = "/Page",method = RequestMethod.GET)
 	public List<Issue> searchPage() throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		List<Issue> list = null;
-		list = issueDao.searchWithPage(1,20);
+//		list = issueDao.searchWithPage(1,20);
 		return list;
 	}
 	
+	//模糊查询
 	@RequestMapping(value = "/search",method = RequestMethod.GET)
 	public List<Issue> searchFuzzy() throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
 //		issue.setCreateMan("三");
 //		issue.setUpdateMan("七");
-		issue.setIssueId(1);
+//		issue.setIssueId(1);
 		List<Issue> list = null;
-		list = issueDao.searchWithFuzzy(issue,null,null);
+//		list = issueDao.searchWithFuzzy(issue,null,null);
 		return list;
+	}
+	
+	//退回修改
+	@RequestMapping(value = "/back",method = RequestMethod.GET)
+	public boolean Back() throws SQLException, IOException{
+		issueDao = new IssueDaoService();
+		Issue issue = new Issue();
+		issue.setIssueId(1);
+		boolean flag = false;
+		flag = issueDao.backChange(issue);
+		return flag;
+	}
+	
+	//关闭issue
+	@RequestMapping(value = "/finish",method = RequestMethod.GET)
+	public boolean finish() throws SQLException, IOException{
+		issueDao = new IssueDaoService();
+		Issue issue = new Issue();
+		issue.setIssueId(1);
+		boolean flag = false;
+		flag = issueDao.closeChange(issue);
+		return flag;
 	}
 }

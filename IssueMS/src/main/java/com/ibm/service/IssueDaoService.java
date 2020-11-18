@@ -12,10 +12,13 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
+import com.ibm.tables.User;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Service
 public class IssueDaoService implements IssueDao {
@@ -160,7 +163,6 @@ public class IssueDaoService implements IssueDao {
 		
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(Issue.class);
 		
 		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
@@ -171,5 +173,35 @@ public class IssueDaoService implements IssueDao {
 		tx.commit();
 		session.close();
 		return list;
+	}
+
+	@Override
+	public boolean backChange(Issue issue) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("update Issue set status = '未解决'  where issue_id = :id");
+		query.setParameter("id", issue.getIssueId());
+	    query.executeUpdate(); 
+	    session.getTransaction().commit(); 
+	    session.close();
+		return true;
+	}
+
+	@Override
+	public boolean closeChange(Issue issue) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery("update Issue set status = '关闭'  where issue_id = :id");
+		query.setParameter("id", issue.getIssueId());
+	    query.executeUpdate();
+	    Query query1 = session.createQuery("update Issue set final_date = :time  where issue_id = :id");
+		query1.setParameter("id", issue.getIssueId());
+		query1.setParameter("time", new Date(System.currentTimeMillis()));
+	    query1.executeUpdate();
+	    session.getTransaction().commit(); 
+	    session.close();
+		return true;
 	}
 }
