@@ -2,6 +2,7 @@ package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -113,18 +114,40 @@ public class IssueDaoService implements IssueDao {
 	}
 	
 	
-	public List<Issue> searchWithFuzzy(Issue issue) throws SQLException, IOException {
+	public List<Issue> searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2) throws SQLException, IOException {
 
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
 		
-		@SuppressWarnings("unchecked")
-		List<Issue> list = criteria.add(
-	            Restrictions.or(Restrictions.eq("issueId", issue.getIssueId()),
-	            Restrictions.or(Restrictions.eq("status", issue.getStatus()),
-	            Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
-	            Restrictions.or(Restrictions.eq("createDate",issue.getCreateDate())))))).list();
+//		criteria.add(
+//	            Restrictions.or(Restrictions.eq("issueId", issue.getIssueId()),
+//	            Restrictions.or(Restrictions.eq("status", issue.getStatus()),
+//	            Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
+//	            Restrictions.or(Restrictions.like("updateMan",issue.getUpdateMan() ,MatchMode.ANYWHERE),
+//	            Restrictions.or(Restrictions.between("createDate", issue.getCreateDate(), createDate2),
+//	            Restrictions.or(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)))))))).list();
+		
+		if(issue.getIssueId()!=null) {
+			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
+		}
+		if(issue.getStatus()!=null) {
+			criteria.add(Restrictions.and(Restrictions.eq("status", issue.getStatus())));
+		}
+		if(issue.getCreateMan()!=null) {
+			criteria.add(Restrictions.and(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE)));
+		}
+		if(issue.getUpdateMan()!=null) {
+			criteria.add(Restrictions.and(Restrictions.like("updateMan",issue.getUpdateMan() ,MatchMode.ANYWHERE)));
+		}
+		if(issue.getCreateDate()!=null&&createDate2!=null) {
+			criteria.add(Restrictions.and(Restrictions.between("createDate", issue.getCreateDate(), createDate2)));
+		}
+		if(issue.getUpdateDate()!=null&&updateDate2!=null) {
+			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
+		}
+		
+		List<Issue> list = criteria.list();
 		
 		tx.commit();
 		session.close();
