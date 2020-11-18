@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ibm.service.IUserService;
+import com.ibm.dao.IUserDao;
 import com.ibm.tables.User;
 
 @Controller
 @RequestMapping("/admin")
 public class LoginControl {
 	@Autowired
-	private IUserService userService;
+	private IUserDao userService;
 
 	@GetMapping
 	public String toLogin() {

@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ibm.dao.IUserDao;
 import com.ibm.dao.LoginRegistDao;
-import com.ibm.service.IUserService;
 import com.ibm.tables.User;
 
 public class RegistControl {
 
 	@Autowired
-	private IUserService userService;
+	private IUserDao userService;
 	private LoginRegistDao LoginRegistDao;
 
 	@RequestMapping(value = "/regist", method = { RequestMethod.POST, RequestMethod.GET })

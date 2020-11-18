@@ -2,10 +2,11 @@ package com.ibm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ibm.dao.IUserDao;
 import com.ibm.dao.LoginRegistDao;
 import com.ibm.tables.User;
 
-public class UserService implements IUserService {
+public class IUserDaoService implements IUserDao {
 
 	@Autowired
 	private LoginRegistDao loginRegistDao;
