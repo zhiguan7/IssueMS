@@ -34,9 +34,9 @@ public class SpringbootApplication {
 //		Issue i = new Issue();
 //		i.setCreateMan("三");
 //		List<Issue> list = issueDao.searchWithFuzzy(i);
-//		List<Issue> list = issueDao.searchWithPage(1);
-//		return list;
-		return null;
+		List<Issue> list = issueDao.searchWithPage(1,20);
+		return list;
+//		return null;
 	}
 
 	public static void main(String[] args) {

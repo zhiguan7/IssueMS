@@ -20,10 +20,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 
-public class IssueDaoimpl implements IssueDao {
-
-	private final static int PAGE_SIZE = 20;
-	
+public class IssueDaoimpl implements IssueDao {	
 	
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
@@ -131,7 +128,7 @@ public class IssueDaoimpl implements IssueDao {
 	}
 
 	@Override
-	public List<Issue> searchWithPage(int pageIndex) throws SQLException, IOException {
+	public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		
 		Session session = factory.openSession();
@@ -139,8 +136,8 @@ public class IssueDaoimpl implements IssueDao {
 		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(Issue.class);
 		
-		criteria.setFirstResult((pageIndex-1)*PAGE_SIZE); //需要修改
-		criteria.setMaxResults(PAGE_SIZE);
+		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+		criteria.setMaxResults(pageSize);
 		
 		List<Issue> list = criteria.list();
 		

@@ -8,9 +8,6 @@
             <column name="event_id" />
             <generator class="assigned" />
         </id>
-        <property name="issueId" type="java.lang.Integer">
-            <column name="issue_id" />
-        </property>
         <property name="updateDate" type="java.util.Date">
             <column name="update_date" />
         </property>
@@ -32,7 +29,9 @@
         <property name="final_date" type="java.util.Date">
             <column name="final_date" />
         </property>
-        
-        <one-to-one name="Issue" class="com.ibm.table.Issue"></one-to-one>
+        <property name="issueId" type="java.lang.Integer">
+            <column name="issue_id" />
+        </property>
+        <!-- <one-to-one name="Event" class="com.ibm.table.Issue"></one-to-one> -->
     </class>
 </hibernate-mapping>

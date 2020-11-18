@@ -32,6 +32,6 @@
         <property name="userId" type="java.lang.Integer">
             <column name="user_id" />
         </property>
-        <one-to-one name="Event" class="com.ibm.table.Event" cascade="all"></one-to-one>
+        <!-- <one-to-one name="Issue" class="com.ibm.table.Event" cascade="all"></one-to-one> -->
     </class>
 </hibernate-mapping>
