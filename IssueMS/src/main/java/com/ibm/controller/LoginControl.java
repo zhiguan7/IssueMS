@@ -1,45 +1,44 @@
 package com.ibm.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibm.service.IUserService;
 import com.ibm.tables.User;
 
+@Controller
+@RequestMapping("/admin")
 public class LoginControl {
 	@Autowired
-	private UserMapper userMapper;
+	private IUserService userService;
 
-	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
-//	@ResponseBody
-	public String login(HttpSession session, HttpServletRequest request) {
-		// 获取请求数据
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+	@GetMapping
+	public String toLogin() {
+		return "admin/login";
+	}
 
-		session.setAttribute("username", username);
-		session.setAttribute("password", password);
-		// 验证用户名是否存在
-		User user = userMapper.getUserByUsername(username);
-		if (user == null) {
-			System.out.println("该用户未注册");
-			return "redirect:/login";
-		}
-		if (!user.getPassword().equals(password)) {
-			System.out.println("密码错误");
-			return "redirect:/login";
+	@PostMapping("/login")
+	public String login(String username, String password, HttpSession session, RedirectAttributes redirectAttributes) {
+		User user = userService.checkUser(username, password);
+		if (user != null) {
+			session.setAttribute("user", user);
+			return "admin/index";
 		} else {
-			System.out.println("登陆成功");
-			return "redirect:/index";
+			redirectAttributes.addFlashAttribute("err", "密码错误");
+			return "redirect:/admin";
 		}
 	}
 
-	@RequestMapping(value = "/index", method = { RequestMethod.POST, RequestMethod.GET })
-	public String index() {
-		return "/index";
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		return "admin/login";
 	}
 
 }
