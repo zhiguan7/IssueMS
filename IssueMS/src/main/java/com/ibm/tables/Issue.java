@@ -17,8 +17,8 @@ public class Issue {
 	private String updateMan;
 	private String step;
 	private String solution;
-	private Date plan_date;
-	private Date final_date;
+	private Date planDate;
+	private Date finalDate;
 	public Integer getIssueId() {
 		return issueId;
 	}
@@ -97,21 +97,21 @@ public class Issue {
 	public void setSolution(String solution) {
 		this.solution = solution;
 	}
-	public Date getPlan_date() {
-		return plan_date;
+	public Date getPlanDate() {
+		return planDate;
 	}
-	public void setPlan_date(Date plan_date) {
-		this.plan_date = plan_date;
+	public void setPlanDate(Date planDate) {
+		this.planDate = planDate;
 	}
-	public Date getFinal_date() {
-		return final_date;
+	public Date getFinalDate() {
+		return finalDate;
 	}
-	public void setFinal_date(Date final_date) {
-		this.final_date = final_date;
+	public void setFinalDate(Date finalDate) {
+		this.finalDate = finalDate;
 	}
 	public Issue(Integer issueId, String issueName, String status, Date createDate, String createMan, int level,
 			String type, String beta, Integer userId, Date updateDate, String updateMan, String step, String solution,
-			Date plan_date, Date final_date) {
+			Date planDate, Date finalDate) {
 		super();
 		this.issueId = issueId;
 		this.issueName = issueName;
@@ -126,15 +126,15 @@ public class Issue {
 		this.updateMan = updateMan;
 		this.step = step;
 		this.solution = solution;
-		this.plan_date = plan_date;
-		this.final_date = final_date;
+		this.planDate = planDate;
+		this.finalDate = finalDate;
 	}
 	@Override
 	public String toString() {
 		return "Issue [issueId=" + issueId + ", issueName=" + issueName + ", status=" + status + ", createDate="
 				+ createDate + ", createMan=" + createMan + ", level=" + level + ", type=" + type + ", beta=" + beta
 				+ ", userId=" + userId + ", updateDate=" + updateDate + ", updateMan=" + updateMan + ", step=" + step
-				+ ", solution=" + solution + ", plan_date=" + plan_date + ", final_date=" + final_date + "]";
+				+ ", solution=" + solution + ", plan_date=" + planDate + ", final_date=" + finalDate + "]";
 	}
 	public Issue() {
 		super();

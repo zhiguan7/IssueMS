@@ -6,7 +6,7 @@
     <class name="com.ibm.tables.Issue" table="ISSUE">
         <id name="issueId" type="java.lang.Integer">
             <column name="issue_id" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="issueName" type="java.lang.String">
             <column name="issue_name" />
@@ -45,10 +45,10 @@
         <property name="solution" type="java.lang.String">
             <column name="solution" />
         </property>
-        <property name="plan_date" type="java.util.Date">
+        <property name="planDate" type="java.util.Date">
             <column name="plan_date" />
         </property>
-        <property name="final_date" type="java.util.Date">
+        <property name="finalDate" type="java.util.Date">
             <column name="final_date" />
         </property>
     </class>

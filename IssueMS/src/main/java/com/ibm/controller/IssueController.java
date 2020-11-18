@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,4 +65,14 @@ public class IssueController {
 		flag = issueDao.closeChange(issue);
 		return flag;
 	}
+	
+	//创建issue
+	@PostMapping(path = "/createIssue")
+	public String createIssue(@RequestBody Issue issue) throws SQLException, IOException {
+		System.out.println(issue);
+		Issue issue2 = issue;
+		issueDao.insert(issue2);
+		return "创建issue成功";
+	}
+	
 }
