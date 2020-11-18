@@ -16,39 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `event`
---
-
-DROP TABLE IF EXISTS `event`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event` (
-  `event_id` int(20) NOT NULL,
-  `update_date` date DEFAULT NULL,
-  `update_man` varchar(20) DEFAULT NULL,
-  `step` varchar(2000) DEFAULT NULL,
-  `assignor` varchar(20) DEFAULT NULL,
-  `solution` varchar(2000) DEFAULT NULL,
-  `plan_date` date DEFAULT NULL,
-  `final_date` date DEFAULT NULL,
-  `issue_id` int(20) NOT NULL,
-  PRIMARY KEY (`event_id`),
-  KEY `ei_fk_idx` (`issue_id`),
-  CONSTRAINT `ei_fk` FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `event`
---
-
-LOCK TABLES `event` WRITE;
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'2010-10-10','1','1','1','1','2010-10-10','2010-10-10',1),(2,'2010-10-10','1','1','1','1','2010-10-10','2010-10-10',2),(3,'2010-10-10','1','1','1','1','2010-10-10','2010-10-10',3);
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `issue`
 --
 
@@ -65,6 +32,12 @@ CREATE TABLE `issue` (
   `type` varchar(30) DEFAULT NULL,
   `beta` varchar(20) DEFAULT NULL,
   `user_id` int(20) NOT NULL,
+  `update_date` date DEFAULT NULL,
+  `update_man` varchar(20) DEFAULT NULL,
+  `step` varchar(2000) DEFAULT NULL,
+  `solution` varchar(2000) DEFAULT NULL,
+  `plan_date` date DEFAULT NULL,
+  `final_date` date DEFAULT NULL,
   PRIMARY KEY (`issue_id`),
   KEY `iu_fk_idx` (`user_id`),
   CONSTRAINT `iu_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -77,7 +50,6 @@ CREATE TABLE `issue` (
 
 LOCK TABLES `issue` WRITE;
 /*!40000 ALTER TABLE `issue` DISABLE KEYS */;
-INSERT INTO `issue` VALUES (1,'1','1','2010-10-10','1',1,'1','1',1),(2,'2','2','2010-10-10','1',1,'1','1',1),(3,'3','3','2010-10-10','1',1,'1','1',1);
 /*!40000 ALTER TABLE `issue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-13 15:53:26
+-- Dump completed on 2020-11-18 14:53:52
