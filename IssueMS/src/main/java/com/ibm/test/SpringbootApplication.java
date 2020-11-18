@@ -30,13 +30,13 @@ public class SpringbootApplication {
 	@ResponseBody
 	public List<Issue> helloIssue() throws SQLException, IOException{
 		IssueDao issueDao = new IssueDaoimpl();
-//		issueDao.ueryAll();
+		issueDao.queryAll();
 //		Issue i = new Issue();
 //		i.setCreateMan("三");
 //		List<Issue> list = issueDao.searchWithFuzzy(i);
-//		List<Issue> list = issueDao.searchWithPage(1);
-//		return list;
-		return null;
+		List<Issue> list = issueDao.searchWithPage(1,20);
+		return list;
+//		return null;
 	}
 
 	public static void main(String[] args) {
