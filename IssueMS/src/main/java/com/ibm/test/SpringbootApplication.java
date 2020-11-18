@@ -30,7 +30,7 @@ public class SpringbootApplication {
 	@ResponseBody
 	public List<Issue> helloIssue() throws SQLException, IOException{
 		IssueDao issueDao = new IssueDaoimpl();
-//		issueDao.ueryAll();
+		issueDao.queryAll();
 //		Issue i = new Issue();
 //		i.setCreateMan("三");
 //		List<Issue> list = issueDao.searchWithFuzzy(i);

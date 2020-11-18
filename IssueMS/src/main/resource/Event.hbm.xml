@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2020-9-23 0:43:13 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.ibm.tables.Issue" table="ISSUE">
+    <class name="com.ibm.tables.Event" table="EVENT">
         <id name="eventId" type="java.lang.Integer">
             <column name="event_id" />
             <generator class="assigned" />
