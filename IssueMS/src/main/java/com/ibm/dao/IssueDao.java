@@ -23,5 +23,5 @@ public interface IssueDao {
     public List<Issue> searchWithFuzzy(Issue issue) throws SQLException, IOException;
     
     //分页查询
-    public List<Issue> searchWithPage(int pageIndex) throws SQLException, IOException;
+    public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 }

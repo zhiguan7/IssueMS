@@ -15,11 +15,15 @@ import org.springframework.stereotype.Service;
 
 import com.ibm.tables.Issue;
 
+<<<<<<< HEAD
 @Service
 public class IssueDaoimpl implements IssueDao {
 
 	private final static int PAGE_SIZE = 20;
 	
+=======
+public class IssueDaoimpl implements IssueDao {	
+>>>>>>> 4f364390ad2d2f16d4836b932e8d9b69dfcb61c9
 	
 	private static SessionFactory factory;
 	
@@ -131,7 +135,7 @@ public class IssueDaoimpl implements IssueDao {
 	}
 
 	@Override
-	public List<Issue> searchWithPage(int pageIndex) throws SQLException, IOException {
+	public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		
 		Session session = factory.openSession();
@@ -139,8 +143,8 @@ public class IssueDaoimpl implements IssueDao {
 		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(Issue.class);
 		
-		criteria.setFirstResult((pageIndex-1)*PAGE_SIZE); //需要修改
-		criteria.setMaxResults(PAGE_SIZE);
+		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+		criteria.setMaxResults(pageSize);
 		
 		List<Issue> list = criteria.list();
 		
