@@ -8,23 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.ibm.dao.IssueDao;
+import com.ibm.service.IssueDaoService;
 import com.ibm.tables.Issue;
 
 @RestController
 public class IssueController {
 	
 	@Autowired
-	private IssueDao issueDao;
+	private IssueDaoService IssueDaoService;
 
-	@RequestMapping(value = "/hello",method = RequestMethod.GET)
+	@RequestMapping(value = "/searchWithPage",method = RequestMethod.GET)
 	public List<Issue> helloIssue() throws SQLException, IOException{
-		List<Issue> list = issueDao.queryAll();
-//		Issue i = new Issue();
-//		i.setCreateMan("三");
-//		List<Issue> list = issueDao.searchWithFuzzy(i);
-//		List<Issue> list = issueDao.searchWithPage(1);
-//		return list;
+		List<Issue> list = IssueDaoService.searchWithPage(1,20);
 		return list;
 	}
 

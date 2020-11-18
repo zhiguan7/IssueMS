@@ -1,4 +1,4 @@
-package com.ibm.dao;
+package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,10 +13,11 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 
 @Service
-public class IssueDaoimpl implements IssueDao {
+public class IssueDaoService implements IssueDao {
 
 	private final static int PAGE_SIZE = 20;
 	

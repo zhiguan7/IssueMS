@@ -1,4 +1,4 @@
-package com.ibm.dao;
+package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,10 +12,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 
+import com.ibm.dao.UserDao;
 import com.ibm.tables.User;
 
 @Service
-public class UserDaoimpl implements UserDao {
+public class UserDaoSevice implements UserDao {
 
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
@@ -23,7 +24,7 @@ public class UserDaoimpl implements UserDao {
 	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
 //		System.out.println("---------------------------");
-		UserDaoimpl u = new UserDaoimpl();
+		UserDaoSevice u = new UserDaoSevice();
 		User user1 = new User();
 		user1.setUserId(6);
 		user1.setUserName("ղķ˹");
