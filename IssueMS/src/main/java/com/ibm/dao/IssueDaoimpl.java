@@ -2,11 +2,7 @@ package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,17 +11,21 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-import org.omg.CORBA.PRIVATE_MEMBER;
+import org.springframework.stereotype.Service;
 
-import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 
+@Service
 public class IssueDaoimpl implements IssueDao {
 
 	private final static int PAGE_SIZE = 20;
 	
 	
-	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
+	private static SessionFactory factory;
+	
+	static {
+		factory = new Configuration().configure().buildSessionFactory();
+	}
 
 	
 //测试代码
@@ -82,16 +82,16 @@ public class IssueDaoimpl implements IssueDao {
 		session.close();
 	}
 
-	public void queryAll() throws SQLException, IOException {
+	public List<Issue> queryAll() throws SQLException, IOException {
 		List<Issue> issues = factory.openSession().createQuery("FROM Issue").list();
-
-		for (Issue issue : issues) {
-			System.out.println("id=" + issue.getUserId() + ", name=" + issue.getIssueName() + ", status="
-					+ issue.getStatus() + ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
-					+ ", create_man=" + issue.getCreateMan() + ", level=" + issue.getLevel() + ", type="
-					+ issue.getType() + ", beta=" + issue.getBeta() + ", user_id=" + issue.getUserId());
-		}
-
+//		List<Issue> issues = factory.openSession().createSQLQuery("select * from issue").addEntity(Issue.class).list();
+//		for (Issue issue : issues) {
+//			System.out.println("id=" + issue.getUserId() + ", name=" + issue.getIssueName() + ", status="
+//					+ issue.getStatus() + ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
+//					+ ", create_man=" + issue.getCreateMan() + ", level=" + issue.getLevel() + ", type="
+//					+ issue.getType() + ", beta=" + issue.getBeta() + ", user_id=" + issue.getUserId());
+//		}
+		return issues;
 	}
 
 	public void delete(Issue issue) throws SQLException, IOException {

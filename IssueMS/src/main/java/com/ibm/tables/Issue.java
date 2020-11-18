@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Issue {
 
-	private int issueId;
+	private Integer issueId;
 	private String issueName;
 	private String status;
 	private Date createDate;
@@ -12,11 +12,12 @@ public class Issue {
 	private int level;
 	private String type;
 	private String beta;
-	private int userId;
+	private Integer userId;
 
-	public Issue(String issueName, String status, Date createDate, String createMan, int level,
+	public Issue(Integer issueId,String issueName, String status, Date createDate, String createMan, int level,
 			String type, String beta, int userId) {
 		super();
+		this.issueId = issueId;
 		this.issueName = issueName;
 		this.status = status;
 		this.createDate = createDate;
@@ -35,7 +36,7 @@ public class Issue {
 		return issueId;
 	}
 
-	public void setIssueId(int issueId) {
+	public void setIssueId(Integer issueId) {
 		this.issueId = issueId;
 	}
 

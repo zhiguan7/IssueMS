@@ -33,6 +33,6 @@
             <column name="final_date" />
         </property>
         
-        <one-to-one name="Issue" class="com.ibm.table.Issue"></one-to-one>
+        <!-- <one-to-one name="Issue" class="com.ibm.tables.Issue"></one-to-one> -->
     </class>
 </hibernate-mapping>

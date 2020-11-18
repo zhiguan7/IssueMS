@@ -11,7 +11,7 @@ public interface IssueDao {
 	public void insert(Issue issue) throws SQLException, IOException;
 
 	// 查询
-	public void queryAll() throws SQLException, IOException;
+	public List<Issue> queryAll() throws SQLException, IOException;
 
 	// 通过id删除
 	public void delete(Issue issue) throws SQLException, IOException;

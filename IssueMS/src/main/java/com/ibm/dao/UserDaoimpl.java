@@ -10,9 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 
 import com.ibm.tables.User;
 
+@Service
 public class UserDaoimpl implements UserDao {
 
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();

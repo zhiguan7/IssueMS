@@ -57,11 +57,11 @@ public class Event {
 		this.updateDate = updateDate;
 	}
 
-	public String getUpdateMain() {
+	public String getUpdateMan() {
 		return updateMan;
 	}
 
-	public void setUpdateMain(String updateMain) {
+	public void setUpdateMan(String updateMan) {
 		this.updateMan = updateMan;
 	}
 
