@@ -19,13 +19,13 @@ public class Event {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Event(int eventId, int issueId, Date updateDate, String updateMain, String step, String assignor,
+	public Event(int eventId, int issueId, Date updateDate, String updateMan, String step, String assignor,
 			String solution, Date plan_date, Date final_date) {
 		super();
 		this.eventId = eventId;
 		this.issueId = issueId;
 		this.updateDate = updateDate;
-		this.updateMan = updateMain;
+		this.updateMan = updateMan;
 		this.step = step;
 		this.assignor = assignor;
 		this.solution = solution;

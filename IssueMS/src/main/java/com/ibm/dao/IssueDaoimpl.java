@@ -15,15 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.ibm.tables.Issue;
 
-<<<<<<< HEAD
 @Service
 public class IssueDaoimpl implements IssueDao {
 
 	private final static int PAGE_SIZE = 20;
 	
-=======
-public class IssueDaoimpl implements IssueDao {	
->>>>>>> 4f364390ad2d2f16d4836b932e8d9b69dfcb61c9
 	
 	private static SessionFactory factory;
 	
