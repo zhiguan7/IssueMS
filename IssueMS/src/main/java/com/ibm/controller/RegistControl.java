@@ -2,14 +2,17 @@ package com.ibm.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.service.UserDaoSevice;
+import com.ibm.tables.User;
 
 @RestController
 public class RegistControl {
@@ -17,39 +20,45 @@ public class RegistControl {
 	@Autowired
 	private UserDaoSevice userDaoSevice;
 
-	@RequestMapping(value = "/regist", method = RequestMethod.GET)
-	public List regist(/* @RequestBody User user */) throws SQLException, IOException {
+	@RequestMapping(value = "/regist", method = { RequestMethod.GET, RequestMethod.POST })
+	public String regist(@RequestBody User user /*
+												 * @RequestParam String username, @RequestParam String password,
+												 * 
+												 * @RequestParam String pwd, @RequestParam String email, @RequestParam
+												 * int userid
+												 */) throws SQLException, IOException {
 
-//		String username = user.getUserName();
-//		String password = user.getPassword();
-//		String pwd = user.getPassword();
-//		String email = user.getEmail();
-//		int userid = user.getUserId();
+		String username = user.getUserName();
+		String password = user.getPassword();
+		String email = user.getEmail();
+		int userid = user.getUserId();
 //		String status = user.getStatus();
 
-		List resultString = userDaoSevice.findByName("8");
-		if (resultString.isEmpty()) {
-			System.out.println("用户不存在");
-			return null;
-		} else {
-			return resultString;
+		List resultString = userDaoSevice.findByName(username);
+		if (!resultString.isEmpty()) {
+			System.out.println("用户已存在");
+			return "0";
 		}
-
-//		return "1";
-//		if (!password.equals(pwd)) {
-//			System.out.println("密码不一致");
-//			return "1";
-//		} else {
-//			User user2 = new User();
-//			user2.setEmail(email);
-//			user2.setUserName(username);
-//			user2.setPassword(password);
-//			user2.setCreateDate(new Date());
-//			user2.setUserId(userid);
-//			user2.setStatus(status);
-//			userDaoSevice.insert(user2);
-//			return "2";
+//		else {
+//			return "0";
 //		}
+//		if (!password.equals(pwd)) {
+//			System.out.println("密码错误");
+//			return "1";
+//		} 
+
+		User user2 = new User();
+		user2.setEmail(email);
+		user2.setUserName(username);
+		user2.setPassword(password);
+		user2.setCreateDate(new Date());
+		user2.setUserId(userid);
+		user2.setStatus("激活");
+		user2.setIdentity("普通用户");
+		user2.toString();
+		userDaoSevice.saveUser(user2);
+		System.out.println(user2);
+		return "2";
 
 	}
 

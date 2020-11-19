@@ -29,10 +29,11 @@ public interface UserDao {
 	//用户分页查询
 	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
-
 	public String login(int userId, String password) throws SQLException, IOException;
 
-	public List findByName(String username);
+	public List findByName(String username) throws SQLException, IOException;
+
+	public void saveUser(User user) throws SQLException, IOException;
 
 	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException;
 
