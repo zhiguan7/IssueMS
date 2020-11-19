@@ -2,9 +2,13 @@ package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import com.ibm.tables.Issue;
+import com.ibm.tables.User;
 
 public interface IssueDao {
 	// 插入
@@ -20,8 +24,14 @@ public interface IssueDao {
 	public void update(Issue issue) throws SQLException, IOException;
 	
 	//模糊查询
-    public List<Issue> searchWithFuzzy(Issue issue) throws SQLException, IOException;
+    public List<Issue> searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2) throws SQLException, IOException;
     
     //分页查询
     public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
+
+    //退回修改状态
+    public boolean backChange(Issue issue) throws SQLException, IOException;
+    
+    //关闭修改
+    public boolean closeChange(Issue issue) throws SQLException, IOException;
 }

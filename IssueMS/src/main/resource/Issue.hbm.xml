@@ -6,7 +6,7 @@
     <class name="com.ibm.tables.Issue" table="ISSUE">
         <id name="issueId" type="java.lang.Integer">
             <column name="issue_id" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="issueName" type="java.lang.String">
             <column name="issue_name" />
@@ -32,6 +32,24 @@
         <property name="userId" type="java.lang.Integer">
             <column name="user_id" />
         </property>
-        <!-- <one-to-one name="Event" class="com.ibm.tables.Event" cascade="all"></one-to-one> -->
+     
+        <property name="updateDate" type="java.util.Date">
+            <column name="update_date" />
+        </property>
+        <property name="updateMan" type="java.lang.String">
+            <column name="update_man" />
+        </property>
+        <property name="step" type="java.lang.String">
+            <column name="step" />
+        </property>
+        <property name="solution" type="java.lang.String">
+            <column name="solution" />
+        </property>
+        <property name="planDate" type="java.util.Date">
+            <column name="plan_date" />
+        </property>
+        <property name="finalDate" type="java.util.Date">
+            <column name="final_date" />
+        </property>
     </class>
 </hibernate-mapping>
