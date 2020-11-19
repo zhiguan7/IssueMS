@@ -218,16 +218,4 @@ public class UserDaoSevice implements UserDao {
 
 	}
 
-	public List findByName(String userName) {
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria cr = session.createCriteria(User.class);
-		cr.add(Restrictions.eq("userName", userName));
-		List result = cr.list();
-		System.out.println(result);
-		tx.commit();
-//		session.close();
-		return result;
-
-	}
 }
