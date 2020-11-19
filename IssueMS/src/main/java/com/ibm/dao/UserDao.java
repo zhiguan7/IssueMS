@@ -26,6 +26,9 @@ public interface UserDao {
 	// 超级Admin修改权限
 	public int UpdateAuthority(int userid) throws SQLException, IOException;
 
-	// 登录
-	public void login(int userId, String password) throws SQLException, IOException;
+
+	public String login(int userId, String password) throws SQLException, IOException;
+
+	public List findByName(String username);
+
 }

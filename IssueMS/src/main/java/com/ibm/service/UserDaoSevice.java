@@ -3,7 +3,6 @@ package com.ibm.service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
@@ -53,16 +53,7 @@ public class UserDaoSevice implements UserDao {
 //		ueryAll();
 //
 //		factory.close();
-		
-		//测试用户修改个人信息
-//		UserDaoSevice u = new UserDaoSevice();
-//		int i = u.update(6, "张三", "123456@163.com", "123456", "123456");
-//		int i = u.update(6, "李四", "123456@qq.com", "12345", "12345");
 
-//		UserDaoSevice u = new UserDaoSevice();
-////		int i = u.UpdateAuthority(4);
-//		
-//		int i = u.cancellationUser(4);
 	}
 
 	public void insert(User user) throws SQLException, IOException {
@@ -144,11 +135,39 @@ public class UserDaoSevice implements UserDao {
 		return 1;
 	}
 
-	public void login(int userId, String password) throws SQLException, IOException {
+	public String login(int userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, userId);
+		User user = session.get(User.class, userId);
+		if (user == null) {
+			System.out.println("该用户不存在");
+			return "0";
+		} else if (!user.getPassword().equals(password)) {
+			System.out.println("密码错误");
+			return "1";
+		} else if (user.getStatus().equals("注销")) {
+			System.out.println("登录失败，该用户已注销");
+			return "2";
+		} else {
+//			System.out.println(
+//					"{name:" + user.getUserName() + "userid:" + user.getUserId() + "iden:" + user.getIdentity() + "}");
+			return "{name:" + user.getUserName() + " userid:" + user.getUserId() + " iden:" + user.getIdentity() + "}";
+		}
+//		tx.commit();
+//		return null;
+
+	}
+
+	public List findByName(String userName) {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria cr = session.createCriteria(User.class);
+		cr.add(Restrictions.eq("userName", userName));
+		List result = cr.list();
+		System.out.println(result);
 		tx.commit();
-		session.close();
+//		session.close();
+		return result;
+
 	}
 }
