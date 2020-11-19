@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class IssueController {
 	public List<Issue> searchPage(/* 前端传参  */ ) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		List<Issue> list = null;
-//		list = issueDao.searchWithPage(1,20);
+		list = issueDao.searchWithPage(1,20);
 		return list;
 	}
 	
@@ -69,9 +70,8 @@ public class IssueController {
 	//创建issue
 	@PostMapping(path = "/createIssue")
 	public String createIssue(@RequestBody Issue issue) throws SQLException, IOException {
-		System.out.println(issue);
-		Issue issue2 = issue;
-		issueDao.insert(issue2);
+		issueDao = new  IssueDaoService();
+		issueDao.insert(issue);
 		return "创建issue成功";
 	}
 	
