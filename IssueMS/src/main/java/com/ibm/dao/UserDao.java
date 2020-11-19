@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ibm.tables.Total_User;
 import com.ibm.tables.User;
 
 public interface UserDao {
@@ -14,11 +15,10 @@ public interface UserDao {
 	public void delete(User user) throws SQLException, IOException;
 
 	// 用户修改个人信息
-	public int update(int userId, String userName, String email, String pwd1, String pwd2)
-			throws SQLException, IOException;
+	public int update(int userId, String userName, String email, String pwd1, String pwd2)throws SQLException, IOException;
 
 	// 查询所有
-	public List<User> queryAll() throws SQLException, IOException;
+	public Total_User queryAll() throws SQLException, IOException;
 
 	// 超级Admin注销用户
 	public int cancellationUser(int userid) throws SQLException, IOException;
@@ -27,14 +27,14 @@ public interface UserDao {
 	public int UpdateAuthority(int userid) throws SQLException, IOException;
 	
 	//用户分页查询
-	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
+//	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
 	public String login(int userId, String password) throws SQLException, IOException;
 
 	public List findByName(String username) throws SQLException, IOException;
 
 	public void saveUser(User user) throws SQLException, IOException;
-
+	
 	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException;
 
 }

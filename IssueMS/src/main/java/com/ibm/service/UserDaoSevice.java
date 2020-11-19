@@ -14,6 +14,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
+import com.ibm.tables.Total_Issue;
+import com.ibm.tables.Total_User;
 import com.ibm.tables.User;
 
 @Service
@@ -64,15 +66,19 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 	}
 
-	public List<User> queryAll() throws SQLException, IOException {
+	public Total_User queryAll() throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(User.class);
 		List<User> users = criteria.list();
+		Total_User Users = new Total_User();
+		int num = users.size();
+		Users.setUsers(users);
+		Users.setTotal(num);
 		transaction.commit();
 //		session.close();
-		return users;
+		return Users;
 	}
 
 	public void delete(User user) throws SQLException, IOException {
@@ -84,8 +90,7 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 	}
 
-	public int update(int userid, String userName, String email, String pwd1, String pwd2)
-			throws SQLException, IOException {
+	public int update(int userid, String userName, String email, String pwd1, String pwd2) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = (User) session.get(User.class, userid);
@@ -129,20 +134,20 @@ public class UserDaoSevice implements UserDao {
 		return 1;
 	}
 
-	public List<User> UsearchWithPage(int pageIndex, int pageSize) throws SQLException, IOException {
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(User.class);
-
-		criteria.setFirstResult((pageIndex - 1) * pageSize); // 需要修改
-		criteria.setMaxResults(pageSize);
-
-		List<User> list = criteria.list();
-
-		tx.commit();
-//		session.close();
-		return list;
-	}
+//	public List<User> UsearchWithPage(int pageIndex, int pageSize) throws SQLException, IOException {
+//		Session session = factory.openSession();
+//		Transaction tx = session.beginTransaction();
+//		Criteria criteria = session.createCriteria(User.class);
+//
+//		criteria.setFirstResult((pageIndex - 1) * pageSize); 
+//		criteria.setMaxResults(pageSize);
+//
+//		List<User> list = criteria.list();
+//
+//		tx.commit();
+////		session.close();
+//		return list;
+//	}
 
 	public String login(int userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();

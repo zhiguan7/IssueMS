@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.dao.UserDao;
 import com.ibm.service.UserDaoSevice;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Total_User;
 import com.ibm.tables.User;
 
 @RestController
@@ -24,9 +25,10 @@ public class UserController {
 	@Autowired
 	private UserDaoSevice UserDaoService;
 	
-	@RequestMapping(value = "/queryAll",method = RequestMethod.GET)
-	public List<User> queryAll()  throws SQLException, IOException{
-		List<User> list = UserDaoService.queryAll();
+	@PostMapping("/queryAll/user")
+	public Total_User queryAll()  throws SQLException, IOException{
+		Total_User list = null;
+		list = UserDaoService.queryAll();
 		return list;
 	}
 	
@@ -50,13 +52,13 @@ public class UserController {
 		return i;
 	}
 	
-	@PostMapping("/UsearchWithPage")
-	public List<User> UsearchWithPage(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
-		UserDaoService = new UserDaoSevice();
-		List<User> list = null;
-		list = UserDaoService.UsearchWithPage(page.get("pageIndex"),page.get("pageSize"));
-		return list;
-	}
+//	@PostMapping("/UsearchWithPage")
+//	public List<User> UsearchWithPage(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
+//		UserDaoService = new UserDaoSevice();
+//		List<User> list = null;
+//		list = UserDaoService.UsearchWithPage(page.get("pageIndex"),page.get("pageSize"));
+//		return list;
+//	}
 	
 	@PostMapping(value = "/searchUser")
 	public List<User> search(@RequestBody Map<String, String> user) throws SQLException, IOException{
