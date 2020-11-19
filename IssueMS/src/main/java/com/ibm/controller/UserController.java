@@ -57,5 +57,12 @@ public class UserController {
 		list = UserDaoService.UsearchWithPage(page.get("pageIndex"),page.get("pageSize"));
 		return list;
 	}
+	
+	@PostMapping(value = "/searchUser")
+	public List<User> search(@RequestBody Map<String, String> user) throws SQLException, IOException{
+		List<User> list = null;		
+		list = UserDaoService.searchWithFuzzy(Integer.parseInt(user.get("userId")),user.get("userName"));
+		return list;
+	}
 }
 

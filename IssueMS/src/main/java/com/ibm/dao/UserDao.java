@@ -34,4 +34,6 @@ public interface UserDao {
 
 	public List findByName(String username);
 
+	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException;
+
 }

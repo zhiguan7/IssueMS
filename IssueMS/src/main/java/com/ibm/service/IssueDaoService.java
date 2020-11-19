@@ -151,7 +151,7 @@ public class IssueDaoService implements IssueDao {
 //	            Restrictions.or(Restrictions.between("createDate", issue.getCreateDate(), createDate2),
 //	            Restrictions.or(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)))))))).list();
 		
-		if(issue.getIssueId()!=null) {
+		if(issue.getIssueId()!=0) {
 			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
 		}
 		if(issue.getStatus()!=null) {
