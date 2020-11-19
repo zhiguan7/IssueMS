@@ -83,7 +83,7 @@ public class IssueDaoService implements IssueDao {
 	
 	
 	
-	public void insert(Issue issue) throws SQLException, IOException {
+	public int insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		session.beginTransaction();
 		System.out.println(issue);
@@ -102,9 +102,10 @@ public class IssueDaoService implements IssueDao {
 		query.setString(11, issue.getSolution());
 		query.setDate(12, issue.getPlanDate());
 //		session.save(issue);
-		query.executeUpdate();
+		int i = query.executeUpdate();
 //		tx.commit();
 		session.close();
+		return i;
 	}
 
 	public List<Issue> queryAll() throws SQLException, IOException {
@@ -128,12 +129,16 @@ public class IssueDaoService implements IssueDao {
 		session.close();
 	}
 
-	public void update(Issue issue) throws SQLException, IOException {
+	public int update(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.update(issue);
+		SQLQuery query = session.createSQLQuery("update issue set solution = ? where issue_id = ?");
+		query.setString(1, issue.getSolution());
+		query.setInteger(2, issue.getIssueId());
+		int i = query.executeUpdate();
 		tx.commit();
 		session.close();
+		return i;
 	}
 	
 	
