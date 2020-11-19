@@ -2,6 +2,7 @@ package com.ibm.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.ibm.tables.User;
 
@@ -18,5 +19,7 @@ public interface UserDao {
 	// 更新
 	public void update(User user) throws SQLException, IOException;
 
-	public void login(int userId, String password) throws SQLException, IOException;
+	public String login(int userId, String password) throws SQLException, IOException;
+
+	public List findByName(String username);
 }

@@ -3,13 +3,14 @@ package com.ibm.service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
@@ -24,17 +25,17 @@ public class UserDaoSevice implements UserDao {
 	public static void main(String[] args) throws SQLException, IOException {
 //		ueryAll();
 //		System.out.println("---------------------------");
-		UserDaoSevice u = new UserDaoSevice();
-		User user1 = new User();
-		user1.setUserId(6);
-		user1.setUserName("ղķ˹");
-		user1.setPassword("8888888");
-		user1.setEmail("10000@qq.com");
-		user1.setCreateDate(new Date());
-		user1.setIdentity("����Ա");
-		user1.setStatus("ע��");
-		user1.toString();
-		u.insert(user1);
+//		UserDaoSevice u = new UserDaoSevice();
+//		User user1 = new User();
+//		user1.setUserId(6);
+//		user1.setUserName("ղķ˹");
+//		user1.setPassword("8888888");
+//		user1.setEmail("10000@qq.com");
+//		user1.setCreateDate(new Date());
+//		user1.setIdentity("����Ա");
+//		user1.setStatus("ע��");
+//		user1.toString();
+//		u.insert(user1);
 //		ueryAll();
 //		User user2 = new User();
 //		user2.setUserId(6);
@@ -52,6 +53,11 @@ public class UserDaoSevice implements UserDao {
 //		ueryAll();
 //
 //		factory.close();
+
+//		UserDaoSevice uSevice = new UserDaoSevice();
+//		uSevice.login(2, "2");
+//		UserDaoSevice userDaoSevice = new UserDaoSevice();
+//		userDaoSevice.findByName("7");
 	}
 
 	public void insert(User user) throws SQLException, IOException {
@@ -91,11 +97,39 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 	}
 
-	public void login(int userId, String password) throws SQLException, IOException {
+	public String login(int userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, userId);
+		User user = session.get(User.class, userId);
+		if (user == null) {
+			System.out.println("该用户不存在");
+			return "0";
+		} else if (!user.getPassword().equals(password)) {
+			System.out.println("密码错误");
+			return "1";
+		} else if (user.getStatus().equals("注销")) {
+			System.out.println("登录失败，该用户已注销");
+			return "2";
+		} else {
+//			System.out.println(
+//					"{name:" + user.getUserName() + "userid:" + user.getUserId() + "iden:" + user.getIdentity() + "}");
+			return "{name:" + user.getUserName() + " userid:" + user.getUserId() + " iden:" + user.getIdentity() + "}";
+		}
+//		tx.commit();
+//		return null;
+
+	}
+
+	public List findByName(String userName) {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria cr = session.createCriteria(User.class);
+		cr.add(Restrictions.eq("userName", userName));
+		List result = cr.list();
+		System.out.println(result);
 		tx.commit();
-		session.close();
+//		session.close();
+		return result;
+
 	}
 }
