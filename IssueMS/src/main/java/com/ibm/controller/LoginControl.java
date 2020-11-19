@@ -1,43 +1,37 @@
 package com.ibm.controller;
 //
 
-//import javax.servlet.http.HttpSession;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-//
-//import com.ibm.tables.User;
-//
-//@Controller
-//@RequestMapping("/admin")
+import java.io.IOException;
+import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.service.UserDaoSevice;
 
+@RestController
 public class LoginControl {
 
 	@Autowired
 	private UserDaoSevice userDaoSevice;
 
-	@RequestMapping(value = "/toLogin")
-	@ResponseBody
-	public String toLogin() {
-		return "/login";
-	}
+//	@RequestMapping(value = "/toLogin")
+//	@ResponseBody
+//	public String toLogin() {
+//		return "/login";
+//	}
 
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ResponseBody
-	public String login(@RequestParam("userId") int userId) {
-		return null;
-
+	public String login( /* User user */) throws SQLException, IOException {
+//		int userid = user.getUserId();
+//		String password = user.getPassword();
+		String reString = userDaoSevice.login(2, "2");
+		System.out.println(reString);
+		return reString;
 	}
 //	@Autowired
 //	private IUserDao userService;
