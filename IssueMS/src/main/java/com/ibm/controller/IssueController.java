@@ -24,7 +24,7 @@ public class IssueController {
 
 	//分页
 	@RequestMapping(value = "/Page",method = RequestMethod.GET)
-	public List<Issue> searchPage() throws SQLException, IOException{
+	public List<Issue> searchPage(/* 前端传参  */ ) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		List<Issue> list = null;
 //		list = issueDao.searchWithPage(1,20);
@@ -33,7 +33,7 @@ public class IssueController {
 	
 	//模糊查询
 	@RequestMapping(value = "/search",method = RequestMethod.GET)
-	public List<Issue> searchFuzzy() throws SQLException, IOException{
+	public List<Issue> searchFuzzy(/* 前端传参  */) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
 //		issue.setCreateMan("三");

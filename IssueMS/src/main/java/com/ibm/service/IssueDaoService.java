@@ -176,31 +176,43 @@ public class IssueDaoService implements IssueDao {
 	}
 
 	@Override
-	public boolean backChange(Issue issue) throws SQLException, IOException {
+	public boolean backChange(Issue issue) {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("update Issue set status = '未解决'  where issue_id = :id");
-		query.setParameter("id", issue.getIssueId());
-	    query.executeUpdate(); 
-	    session.getTransaction().commit(); 
+		try {
+			Query query = session.createQuery("update Issue set status = '待解决'  where issue_id = :id");
+			query.setParameter("id", issue.getIssueId());
+			query.executeUpdate(); 
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} 
 	    session.close();
 		return true;
 	}
 
 	@Override
-	public boolean closeChange(Issue issue) throws SQLException, IOException {
+	public boolean closeChange(Issue issue){
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		Query query = session.createQuery("update Issue set status = '关闭'  where issue_id = :id");
-		query.setParameter("id", issue.getIssueId());
-	    query.executeUpdate();
-	    Query query1 = session.createQuery("update Issue set final_date = :time  where issue_id = :id");
-		query1.setParameter("id", issue.getIssueId());
-		query1.setParameter("time", new Date(System.currentTimeMillis()));
-	    query1.executeUpdate();
-	    session.getTransaction().commit(); 
+		try {
+			Query query = session.createQuery("update Issue set status = '关闭'  where issue_id = :id");
+			query.setParameter("id", issue.getIssueId());
+			query.executeUpdate();
+			Query query1 = session.createQuery("update Issue set final_date = :time  where issue_id = :id");
+			query1.setParameter("id", issue.getIssueId());
+			query1.setParameter("time", new Date(System.currentTimeMillis()));
+			query1.executeUpdate();
+			session.getTransaction().commit(); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	    session.close();
 		return true;
 	}
