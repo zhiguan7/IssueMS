@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
@@ -168,6 +169,27 @@ public class UserDaoSevice implements UserDao {
 		tx.commit();
 //		session.close();
 		return result;
+
+	}
+	
+	@Override
+	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		
+		if(id!=0) {
+			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
+		}
+		if(name!=null) {
+			criteria.add(Restrictions.and(Restrictions.like("userName", name,MatchMode.ANYWHERE)));
+		}
+		List<User> list = criteria.list();
+		
+		tx.commit();
+		session.close();
+		return list;
 
 	}
 }

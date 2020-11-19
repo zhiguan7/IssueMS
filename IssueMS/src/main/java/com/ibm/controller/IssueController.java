@@ -32,7 +32,7 @@ public class IssueController {
 	}
 	
 	//模糊查询
-	@RequestMapping(value = "/search",method = RequestMethod.GET)
+	@RequestMapping(value = "/searchIssue",method = RequestMethod.GET)
 	public List<Issue> searchFuzzy(/* 前端传参  */) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();

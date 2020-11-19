@@ -41,5 +41,11 @@ public class UserController {
 		int i = UserDaoService.UpdateAuthority(3);
 		return i;
 	}
+	
+	@RequestMapping(value = "/searchUser",method = RequestMethod.GET)
+	public List<User> search() throws SQLException, IOException{
+		List<User> list = UserDaoService.searchWithFuzzy(0,"张");
+		return list;
+	}
 }
 
