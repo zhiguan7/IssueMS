@@ -13,7 +13,7 @@ import com.ibm.tables.User;
 
 public interface IssueDao {
 	// 插入
-	public void insert(Issue issue) throws SQLException, IOException;
+	public int insert(Issue issue) throws SQLException, IOException;
 
 	// 查询
 	public List<Issue> queryAll() throws SQLException, IOException;
@@ -22,7 +22,7 @@ public interface IssueDao {
 	public void delete(Issue issue) throws SQLException, IOException;
 
 	// 更新
-	public void update(Issue issue) throws SQLException, IOException;
+	public int update(Issue issue) throws SQLException, IOException;
 	
 	//模糊查询
     public Total_Issue searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException;

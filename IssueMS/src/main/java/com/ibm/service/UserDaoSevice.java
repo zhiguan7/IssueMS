@@ -2,7 +2,6 @@ package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -129,17 +128,17 @@ public class UserDaoSevice implements UserDao {
 //		session.close();
 		return 1;
 	}
-	
-	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException{
+
+	public List<User> UsearchWithPage(int pageIndex, int pageSize) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(User.class);
-		
-		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+
+		criteria.setFirstResult((pageIndex - 1) * pageSize); // 需要修改
 		criteria.setMaxResults(pageSize);
-		
+
 		List<User> list = criteria.list();
-		
+
 		tx.commit();
 //		session.close();
 		return list;
@@ -167,30 +166,8 @@ public class UserDaoSevice implements UserDao {
 //		return null;
 
 	}
-	
 
-	@Override
-	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException {
-		// TODO Auto-generated method stub
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(User.class);
-		
-		if(id!=0) {
-			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
-		}
-		if(name!=null) {
-			criteria.add(Restrictions.and(Restrictions.like("userName", name,MatchMode.ANYWHERE)));
-		}
-		List<User> list = criteria.list();
-		
-		tx.commit();
-		session.close();
-		return list;
-
-	}
-
-	public List findByName(String userName) {
+	public List findByName(String userName) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria cr = session.createCriteria(User.class);
@@ -200,6 +177,45 @@ public class UserDaoSevice implements UserDao {
 		tx.commit();
 //		session.close();
 		return result;
+	}
+
+	public void saveUser(User user) throws SQLException, IOException {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+//		String sql = "insert into user(userId , userName, password, email, identity, status) values(?,?,?,?,?,?)";
+//		SQLQuery sqlQuery = session.createSQLQuery(sql);
+//		sqlQuery.setInteger(1, user.getUserId());
+//		sqlQuery.setString(2, user.getUserName());
+//		sqlQuery.setString(3, user.getPassword());
+//		sqlQuery.setString(4, user.getEmail());
+//		sqlQuery.setString(5, user.getIdentity());
+//		sqlQuery.setString(6, user.getStatus());
+//		sqlQuery.executeUpdate();
+		session.save(user);
+		tx.commit();
+		session.flush();
+//		session.close();
+	}
+
+	@Override
+	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+
+		if (id != 0) {
+			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
+		}
+		if (name != null) {
+			criteria.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
+		}
+		List<User> list = criteria.list();
+
+		tx.commit();
+		session.close();
+		return list;
 
 	}
+
 }

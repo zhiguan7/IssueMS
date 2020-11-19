@@ -28,6 +28,7 @@ public class IssueController {
 	@Autowired
 	private IssueDao issueDao;
 
+
 //	/*
 //	 * 分页查询
 //	 * 
@@ -108,11 +109,21 @@ public class IssueController {
 	
 	//创建issue
 	@PostMapping(path = "/createIssue")
-	public String createIssue(@RequestBody Issue issue) throws SQLException, IOException {
-		System.out.println(issue);
-		Issue issue2 = issue;
-		issueDao.insert(issue2);
-		return "创建issue成功";
+	public int createIssue(@RequestBody Issue issue) throws SQLException, IOException {
+		issueDao = new  IssueDaoService();
+		int i = issueDao.insert(issue);
+		return i;
 	}
 	
+	//修改issue-填写解决方案
+	@PostMapping(path = "/updateSolotion")
+	public int updateSolotion(@RequestBody Issue issue) throws SQLException, IOException {
+		issueDao = new  IssueDaoService();
+		Issue issue2 = new Issue();
+		issue2.setIssueId(issue.getIssueId());
+		issue2.setSolution(issue.getSolution());
+		System.out.println(issue2);
+		int i = issueDao.update(issue2);
+		return i;
+	}
 }

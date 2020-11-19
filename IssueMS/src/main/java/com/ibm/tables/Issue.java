@@ -19,18 +19,25 @@ public class Issue {
 	private String solution;
 	private Date planDate;
 	private Date finalDate;
+	
+	public Issue() {
+	}
+	
 	public Integer getIssueId() {
 		return issueId;
 	}
 	public void setIssueId(Integer issueId) {
 		this.issueId = issueId;
 	}
+	
 	public String getIssueName() {
 		return issueName;
 	}
+
 	public void setIssueName(String issueName) {
 		this.issueName = issueName;
 	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -136,10 +143,5 @@ public class Issue {
 				+ ", userId=" + userId + ", updateDate=" + updateDate + ", updateMan=" + updateMan + ", step=" + step
 				+ ", solution=" + solution + ", plan_date=" + planDate + ", final_date=" + finalDate + "]";
 	}
-	public Issue() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	
 }

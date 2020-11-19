@@ -2,10 +2,12 @@ package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,6 +23,8 @@ import com.ibm.tables.Total_Issue;
 import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import javassist.expr.NewArray;
+
 @Service
 public class IssueDaoService implements IssueDao {
 
@@ -33,12 +37,30 @@ public class IssueDaoService implements IssueDao {
 		factory = new Configuration().configure().buildSessionFactory();
 	}
 	
-	public void insert(Issue issue) throws SQLException, IOException {
+	
+	public int insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(issue);
-		tx.commit();
+		session.beginTransaction();
+		System.out.println(issue);
+		String sql = "INSERT INTO issue ( issue_name, status, create_date, create_man, level, type, beta, user_id, update_man, step, solution, plan_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setString(1, issue.getIssueName());
+		query.setString(2, "未验证");
+		query.setString(3, DateFormat.getDateInstance().format(new Date()));
+		query.setString(4, issue.getCreateMan());
+		query.setInteger(5, issue.getLevel());
+		query.setString(6, issue.getType());
+		query.setString(7, issue.getBeta());
+		query.setInteger(8, issue.getUserId());
+		query.setString(9, issue.getUpdateMan());
+		query.setString(10, issue.getStep());
+		query.setString(11, issue.getSolution());
+		query.setDate(12, issue.getPlanDate());
+//		session.save(issue);
+		int i = query.executeUpdate();
+//		tx.commit();
 		session.close();
+		return i;
 	}
 
 	public List<Issue> queryAll() throws SQLException, IOException {
@@ -55,12 +77,16 @@ public class IssueDaoService implements IssueDao {
 		session.close();
 	}
 
-	public void update(Issue issue) throws SQLException, IOException {
+	public int update(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.update(issue);
+		SQLQuery query = session.createSQLQuery("update issue set solution = ? where issue_id = ?");
+		query.setString(1, issue.getSolution());
+		query.setInteger(2, issue.getIssueId());
+		int i = query.executeUpdate();
 		tx.commit();
 		session.close();
+		return i;
 	}
 	
 	
