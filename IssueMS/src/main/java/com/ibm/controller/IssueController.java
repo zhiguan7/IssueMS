@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.dao.IssueDao;
 import com.ibm.service.IssueDaoService;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Total_Issue;
 
 @RestController
 public class IssueController {
@@ -27,20 +28,20 @@ public class IssueController {
 	@Autowired
 	private IssueDao issueDao;
 
-	/*
-	 * 分页查询
-	 * 
-	 * pageindex:页码
-	 * pagesize:页大小
-	 * 
-	 * */
-	@PostMapping(value = "/PageIssue")
-	public List<Issue> searchPage(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
-		issueDao = new IssueDaoService();
-		List<Issue> list = null;
-		list = issueDao.searchWithPage(page.get("pageindex"),page.get("pagesize"));
-		return list;
-	}
+//	/*
+//	 * 分页查询
+//	 * 
+//	 * pageindex:页码
+//	 * pagesize:页大小
+//	 * 
+//	 * */
+//	@PostMapping(value = "/PageIssue")
+//	public List<Issue> searchPage(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
+//		issueDao = new IssueDaoService();
+//		List<Issue> list = null;
+//		list = issueDao.searchWithPage(page.get("pageindex"),page.get("pagesize"));
+//		return list;
+//	}
 	
 	/*
 	 * 模糊查询
@@ -54,7 +55,7 @@ public class IssueController {
 	 *
 	 * */
 	@RequestMapping(value = "/searchIssue")
-	public List<Issue> searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
+	public Total_Issue searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
 		issueDao = new IssueDaoService();
 		Issue i = new Issue();
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,9 +79,9 @@ public class IssueController {
 		}
 //		i.setCreateDate(new Date(issue.get("createdate1")));
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
-		List<Issue> list = null;
-		list = issueDao.searchWithFuzzy(i,c3,u3);
-		return list;
+		Total_Issue tIssue = null;
+		tIssue = issueDao.searchWithFuzzy(i,c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
+		return tIssue;
 	}
 	
 	//退回修改

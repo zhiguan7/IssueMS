@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Total_Issue;
 import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -31,54 +32,7 @@ public class IssueDaoService implements IssueDao {
 	static {
 		factory = new Configuration().configure().buildSessionFactory();
 	}
-
 	
-//测试代码
-//	public static void main(String[] args) throws SQLException, IOException {
-//		ueryAll();
-//		System.out.println("---------------------------");
-//		User user1 = new User();
-//		user1.setUserId(6);
-//		user1.setUserName("ղķ˹");
-//		user1.setPassword("8888888");
-//		user1.setEmail("10000@qq.com");
-//		user1.setCreateDate(new Date());
-//		user1.setIdentity("����Ա");
-//		user1.setStatus("ע��");
-//		user1.toString();
-//		insert(user1);
-//		ueryAll();
-//		User user2 = new User();
-//		user2.setUserId(6);
-//		delete(user2);
-//		User user3 = new User();
-//		user3.setUserId(4);
-//		user3.setUserName("ղķ˹");
-//		user3.setPassword("8888888");
-//		user3.setEmail("10000@qq.com");
-//		user3.setCreateDate(new Date());
-//		user3.setIdentity("����Ա");
-//		user3.setStatus("ע��");
-//		user3.toString();
-//		update(user3);
-//		ueryAll();
-//
-//		factory.close();
-//	}
-	
-//	public static void main(String[] args) throws SQLException, IOException {
-//		Issue issue = new Issue();
-//		IssueDaoimpl i = new IssueDaoimpl();
-////		issue.setIssueId(1);
-////		issue.setUserId(1);
-////		issue.setBeta("12343214");
-////		issue.setCreateMan("三");
-////		i.insert(issue);
-////		i.fuzzySearch(issue);
-//	}
-	
-	
-
 	public void insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -89,13 +43,6 @@ public class IssueDaoService implements IssueDao {
 
 	public List<Issue> queryAll() throws SQLException, IOException {
 		List<Issue> issues = factory.openSession().createQuery("FROM Issue").list();
-//		List<Issue> issues = factory.openSession().createSQLQuery("select * from issue").addEntity(Issue.class).list();
-//		for (Issue issue : issues) {
-//			System.out.println("id=" + issue.getUserId() + ", name=" + issue.getIssueName() + ", status="
-//					+ issue.getStatus() + ", create_date=" + DateFormat.getDateInstance().format(issue.getCreateDate())
-//					+ ", create_man=" + issue.getCreateMan() + ", level=" + issue.getLevel() + ", type="
-//					+ issue.getType() + ", beta=" + issue.getBeta() + ", user_id=" + issue.getUserId());
-//		}
 		return issues;
 	}
 
@@ -117,20 +64,12 @@ public class IssueDaoService implements IssueDao {
 	}
 	
 	
-	public List<Issue> searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2) throws SQLException, IOException {
+	public Total_Issue searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
 
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
-		
-//		criteria.add(
-//	            Restrictions.or(Restrictions.eq("issueId", issue.getIssueId()),
-//	            Restrictions.or(Restrictions.eq("status", issue.getStatus()),
-//	            Restrictions.or(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE),
-//	            Restrictions.or(Restrictions.like("updateMan",issue.getUpdateMan() ,MatchMode.ANYWHERE),
-//	            Restrictions.or(Restrictions.between("createDate", issue.getCreateDate(), createDate2),
-//	            Restrictions.or(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)))))))).list();
-		
+				
 		if(issue.getIssueId()!=0) {
 			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
 		}
@@ -150,30 +89,37 @@ public class IssueDaoService implements IssueDao {
 			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
 		}
 		
-		List<Issue> list = criteria.list();
-		
+		List<Issue> list = criteria.list();//总
+		Total_Issue tIssue = new Total_Issue();
+		int row = list.size();
+		tIssue.setTotal(row);
+		if(row/pageSize == pageIndex) {
+			list = list.subList((pageIndex-1)*pageSize, row);
+		}else {
+			list = list.subList((pageIndex-1)*pageSize, pageIndex*pageSize);
+		}
+		tIssue.setIssue(list);
 		tx.commit();
 		session.close();
-		return list;
+		return tIssue;
 	}
 
-	@Override
-	public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException {
-		// TODO Auto-generated method stub
-		
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(Issue.class);
-		
-		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
-		criteria.setMaxResults(pageSize);
-		
-		List<Issue> list = criteria.list();
-		
-		tx.commit();
-		session.close();
-		return list;
-	}
+//	@Override
+//	public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException {
+//		// TODO Auto-generated method stub
+//		
+//		Session session = factory.openSession();
+//		Transaction tx = session.beginTransaction();
+//		Criteria criteria = session.createCriteria(Issue.class);
+//		
+//		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+//		criteria.setMaxResults(pageSize);
+//		List<Issue> list = criteria.list();
+//	
+//		tx.commit();
+//		session.close();
+//		return list;
+//	}
 
 	@Override
 	public boolean backChange(Issue issue) {
