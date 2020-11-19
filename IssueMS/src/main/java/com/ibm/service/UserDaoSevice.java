@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
@@ -71,12 +70,6 @@ public class UserDaoSevice implements UserDao {
 
 		Criteria criteria = session.createCriteria(User.class);
 		List<User> users = criteria.list();
-//		for (User user : users) {
-//			System.out.println("id=" + user.getUserId() + ", name=" + user.getUserName() + ", password="
-//					+ user.getPassword() + ", email=" + user.getEmail() + ", identity=" + user.getIdentity()
-//					+ ", createdate=" + DateFormat.getDateInstance().format(user.getCreateDate()) + ", status="
-//					+ user.getStatus());
-//		}
 		transaction.commit();
 //		session.close();
 		return users;
@@ -135,6 +128,21 @@ public class UserDaoSevice implements UserDao {
 //		session.close();
 		return 1;
 	}
+	
+	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException{
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		
+		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+		criteria.setMaxResults(pageSize);
+		
+		List<User> list = criteria.list();
+		
+		tx.commit();
+//		session.close();
+		return list;
+	}
 
 	public String login(int userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();
@@ -169,27 +177,6 @@ public class UserDaoSevice implements UserDao {
 		tx.commit();
 //		session.close();
 		return result;
-
-	}
-	
-	@Override
-	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException {
-		// TODO Auto-generated method stub
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(User.class);
-		
-		if(id!=0) {
-			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
-		}
-		if(name!=null) {
-			criteria.add(Restrictions.and(Restrictions.like("userName", name,MatchMode.ANYWHERE)));
-		}
-		List<User> list = criteria.list();
-		
-		tx.commit();
-		session.close();
-		return list;
 
 	}
 }

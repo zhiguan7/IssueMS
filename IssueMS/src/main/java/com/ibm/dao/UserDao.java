@@ -13,7 +13,7 @@ public interface UserDao {
 	// 通过id删除
 	public void delete(User user) throws SQLException, IOException;
 
-	// 更新
+	// 用户修改个人信息
 	public int update(int userId, String userName, String email, String pwd1, String pwd2)
 			throws SQLException, IOException;
 
@@ -25,13 +25,13 @@ public interface UserDao {
 
 	// 超级Admin修改权限
 	public int UpdateAuthority(int userid) throws SQLException, IOException;
+	
+	//用户分页查询
+	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
 
 	public String login(int userId, String password) throws SQLException, IOException;
 
 	public List findByName(String username);
 
-	public List<User> searchWithFuzzy(int id , String name ) throws SQLException, IOException;
-
-	
 }
