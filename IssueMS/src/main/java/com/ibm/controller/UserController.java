@@ -67,5 +67,12 @@ public class UserController {
 		ts = UserDaoService.searchWithFuzzy(Integer.parseInt(user.get("userId")),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
 		return ts;
 	}
+	
+	@RequestMapping(value = "/searchUser")
+	public Total_User AdminFuzzyquery(@RequestBody Map<String, String> user) throws SQLException, IOException{
+		Total_User ts	=null;
+		ts = UserDaoService.AdminFuzzyquery(Integer.parseInt(user.get("userId")),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
+		return ts;
+	}
 }
 

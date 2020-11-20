@@ -42,6 +42,7 @@ public interface UserDao {
 	//issue报表的模糊查询
 	public Total_Statistics searchWithFuzzy(int id, String name,int pageIndex,int pageSize) throws SQLException, IOException;
 	
-
+	//超级Admin用户页面的模糊查询并实现分页
+	public Total_User AdminFuzzyquery(int id,String name,int pageIndex,int pageSize) throws SQLException, IOException;
 	
 }

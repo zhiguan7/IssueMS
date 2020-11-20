@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
@@ -118,12 +119,15 @@ public class UserDaoSevice implements UserDao {
 	public int cancellationUser(int userid) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, userid);
-
-		user.setStatus("注销");
-		session.update(user);
-
-		tx.commit();
+		try {
+			User user = (User) session.get(User.class, userid);
+			user.setStatus("注销");
+			session.update(user);
+			tx.commit();
+		}catch (Exception e){
+			e.printStackTrace();
+			return 0;
+		}
 //		session.close();
 		return 1;
 	}
@@ -131,12 +135,15 @@ public class UserDaoSevice implements UserDao {
 	public int UpdateAuthority(int userid) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, userid);
-
-		user.setIdentity("经理");
-		session.update(user);
-
-		tx.commit();
+		try {
+			User user = (User) session.get(User.class, userid);
+			user.setIdentity("经理");
+			session.update(user);
+			tx.commit();
+		}catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 //		session.close();
 		return 1;
 	}
@@ -262,6 +269,31 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 		return tStatistics;
 
+	}
+	
+	public Total_User AdminFuzzyquery(int useid,String username,int pageIndex,int pageSize) throws SQLException, IOException{
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(User.class);
+		Total_User user = new Total_User();
+		
+		if (useid != 0) {
+			criteria.add(Restrictions.and(Restrictions.eq("userId", useid)));
+		}
+		if (username != null) {
+			criteria.add(Restrictions.and(Restrictions.like("userName", username, MatchMode.ANYWHERE)));
+		}
+		criteria.setFirstResult((pageIndex-1)*pageSize); 
+		criteria.setMaxResults(pageSize);
+		user.setUsers(criteria.list());
+		
+		criteria.setFirstResult(0);
+		int allCounts = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		user.setTotal(allCounts);
+		
+		tx.commit();
+//		session.close();
+		return user;
 	}
 
 }
