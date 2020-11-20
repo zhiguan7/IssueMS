@@ -215,49 +215,26 @@ public class UserDaoSevice implements UserDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
-
+		Total_Statistics tStatistics = new Total_Statistics();
+		Statistics s = new Statistics();
+		List<Statistics> statistics = null;
+		List<Issue> list = null;
+		
 		if (id != 0) {
 			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
 		}
 		if (name != null) {
-			criteria.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
+			criteria.add(Restrictions.and(Restrictions.like("createMan", name, MatchMode.ANYWHERE)));
 		}
-		List<User> list = criteria.list();
-		List<Statistics> sList = null;
-		Total_Statistics tStatistics = new Total_Statistics();
-		Statistics s = new Statistics();
-		Query query1 = session.createQuery("from Issue count(*) where create_man=:cm");
-		Query query2 = session.createQuery("from Issue count(*) where update_man=:um");
-		Query query3 = session.createQuery("from Issue count(*) where update_man=:m and status = '关闭' ");
-		for(User u: list) {
-			s.setUserId(u.getUserId());
-			s.setUserName(u.getUserName());
-			
-			query1.setParameter("cm", u.getUserName());
-			Integer ref1 = (Integer)query1.uniqueResult();
-			s.setcNum(ref1);
-			
-			query2.setParameter("um", u.getUserName());
-			Integer ref2 = (Integer)query2.uniqueResult();
-			s.setrNum(ref2);
-			
-			query3.setParameter("m", u.getUserName());
-			Integer ref3 = (Integer)query3.uniqueResult();
-			s.setaNum(ref3);
-			
-			float rate = (float)ref3/ (float)ref2;
-			s.setRate(rate);
-			sList.add(s);
-		}
-//		int row = sList.size();
-//		tStatistics.setTotal(row);
-//		
-//		if(row/pageSize == pageIndex) {
-//			sList = sList.subList((pageIndex-1)*pageSize, row);
-//		}else {
-//			sList = sList.subList((pageIndex-1)*pageSize, pageIndex*pageSize);
-//		}
+		list = criteria.list();
 		
+		for(Issue i :list) {
+			s.setUserId(i.getUserId());
+			s.setUserName(i.getCreateMan());
+			statistics.add(s);
+		}
+		
+		tStatistics.setStatistics(statistics);
 		tx.commit();
 		session.close();
 		return tStatistics;

@@ -55,7 +55,7 @@ public class IssueController {
 	    *  修改时间: updatedate1 至 updatedate2
 	 *
 	 * */
-	@RequestMapping(value = "/searchIssue")
+	@RequestMapping(value = "/searchIssue",method = RequestMethod.POST)
 	public Total_Issue searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
 		issueDao = new IssueDaoService();
 		Issue i = new Issue();
