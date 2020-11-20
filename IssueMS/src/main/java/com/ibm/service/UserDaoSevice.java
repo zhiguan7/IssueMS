@@ -2,6 +2,7 @@ package com.ibm.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -16,15 +17,10 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
-import com.ibm.tables.Issue;
 import com.ibm.tables.Statistics;
 import com.ibm.tables.Total_Statistics;
-
-import com.ibm.tables.Total_Issue;
 import com.ibm.tables.Total_User;
-
 import com.ibm.tables.User;
-import com.sun.org.glassfish.external.statistics.Statistic;
 
 @Service
 public class UserDaoSevice implements UserDao {
@@ -98,7 +94,8 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 	}
 
-	public int update(int userid, String userName, String email, String pwd1, String pwd2) throws SQLException, IOException {
+	public int update(int userid, String userName, String email, String pwd1, String pwd2)
+			throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = (User) session.get(User.class, userid);
@@ -124,7 +121,7 @@ public class UserDaoSevice implements UserDao {
 			user.setStatus("注销");
 			session.update(user);
 			tx.commit();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
@@ -140,7 +137,7 @@ public class UserDaoSevice implements UserDao {
 			user.setIdentity("经理");
 			session.update(user);
 			tx.commit();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
@@ -217,57 +214,85 @@ public class UserDaoSevice implements UserDao {
 	}
 
 	@Override
-	public Total_Statistics searchWithFuzzy(int id, String name,int pageIndex,int pageSize) throws SQLException, IOException {
+	public Total_Statistics searchWithFuzzy(int id, String name, int pageIndex, int pageSize)
+			throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(Issue.class);
+//		Criteria criteria1 = session.createCriteria(Issue.class);
+//		Criteria criteria2 = session.createCriteria(Issue.class);
+//		Criteria criteria3 = session.createCriteria(Issue.class);
+		Criteria criteria4 = session.createCriteria(User.class);
 		Total_Statistics tStatistics = new Total_Statistics();
-		Statistics s = new Statistics();
-		List<Statistics> statistics = null;
-		List<Issue> list = null;
-		
+		Statistics s = null;
+		List<Statistics> statistics = new ArrayList<Statistics>();
+		List<User> list = null;
+
 		if (id != 0) {
-			criteria.add(Restrictions.and(Restrictions.eq("userId", id)));
+			criteria4.add(Restrictions.and(Restrictions.eq("userId", id)));
 		}
 		if (name != null) {
-			criteria.add(Restrictions.and(Restrictions.like("createMan", name, MatchMode.ANYWHERE)));
+			criteria4.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
 		}
-		list = criteria.list();
-		
-		for(Issue i :list) {
+		list = criteria4.list();
+
+		Query query = session.createSQLQuery("select count(*) from issue where user_id=?");
+
+		for (User i : list) {
+			s = new Statistics();
 			s.setUserId(i.getUserId());
-			s.setUserName(i.getCreateMan());
+			s.setUserName(i.getUserName());
+
+			query.setParameter(1, i.getUserId());
+			int cNum = ((Number) query.uniqueResult()).intValue();
+//			criteria1.add(Restrictions.eq("userId", i.getUserId()));
+//			int cNum = ((Long) criteria1.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			s.setcNum(cNum);
+//
+//			criteria2.add(Restrictions.eq("updateMan", i.getUserName()));
+//			int rNum = ((Long) criteria2.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+//			s.setrNum(rNum);
+//
+//			criteria3.add(Restrictions.eq("userId", i.getUserId()));
+//			int aNum = ((Long) criteria3.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+//			s.setaNum(aNum);
+
+			System.out.println(s);
 			statistics.add(s);
 		}
-		
+
 		tStatistics.setStatistics(statistics);
+
+		criteria4.setFirstResult(0);
+		int allCounts = ((Long) criteria4.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		tStatistics.setTotal(allCounts);
 		tx.commit();
-		session.close();
+//		session.close();
 		return tStatistics;
 
 	}
-	
-	public Total_User AdminFuzzyquery(int useid,String username,int pageIndex,int pageSize) throws SQLException, IOException{
+
+	public Total_User AdminFuzzyquery(int useid, String username, int pageIndex, int pageSize)
+			throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(User.class);
 		Total_User user = new Total_User();
-		
+
 		if (useid != 0) {
 			criteria.add(Restrictions.and(Restrictions.eq("userId", useid)));
 		}
 		if (username != null) {
 			criteria.add(Restrictions.and(Restrictions.like("userName", username, MatchMode.ANYWHERE)));
 		}
-		criteria.setFirstResult((pageIndex-1)*pageSize); 
+		criteria.setFirstResult((pageIndex - 1) * pageSize);
 		criteria.setMaxResults(pageSize);
 		user.setUsers(criteria.list());
-		
+
 		criteria.setFirstResult(0);
 		int allCounts = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 		user.setTotal(allCounts);
-		
+
 		tx.commit();
 //		session.close();
 		return user;
