@@ -13,10 +13,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
+import com.ibm.tables.Issue;
 import com.ibm.tables.Statistics;
 import com.ibm.tables.Total_Statistics;
 import com.ibm.tables.Total_User;
@@ -219,9 +219,7 @@ public class UserDaoSevice implements UserDao {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-//		Criteria criteria1 = session.createCriteria(Issue.class);
-//		Criteria criteria2 = session.createCriteria(Issue.class);
-//		Criteria criteria3 = session.createCriteria(Issue.class);
+
 		Criteria criteria4 = session.createCriteria(User.class);
 		Total_Statistics tStatistics = new Total_Statistics();
 		Statistics s = null;
@@ -236,29 +234,40 @@ public class UserDaoSevice implements UserDao {
 		}
 		list = criteria4.list();
 
-		Query query = session.createSQLQuery("select count(*) from issue where user_id=?");
-
 		for (User i : list) {
 			s = new Statistics();
 			s.setUserId(i.getUserId());
 			s.setUserName(i.getUserName());
+			Criteria criteria1 = session.createCriteria(Issue.class);
+			Criteria criteria2 = session.createCriteria(Issue.class);
+			Criteria criteria3 = session.createCriteria(Issue.class);
 
-			query.setParameter(1, i.getUserId());
-			int cNum = ((Number) query.uniqueResult()).intValue();
-//			criteria1.add(Restrictions.eq("userId", i.getUserId()));
-//			int cNum = ((Long) criteria1.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			criteria1.add(Restrictions.eq("userId", i.getUserId()));
+			int cNum = ((Long) criteria1.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 			s.setcNum(cNum);
 //
-//			criteria2.add(Restrictions.eq("updateMan", i.getUserName()));
-//			int rNum = ((Long) criteria2.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-//			s.setrNum(rNum);
-//
-//			criteria3.add(Restrictions.eq("userId", i.getUserId()));
-//			int aNum = ((Long) criteria3.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-//			s.setaNum(aNum);
+			criteria2.add(Restrictions.eq("updateMan", i.getUserName()));
+			int rNum = ((Long) criteria2.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			s.setrNum(rNum);
+
+			criteria3.add(Restrictions.eq("status", "关闭"));
+			criteria3.add(Restrictions.eq("userId", i.getUserId()));
+			int aNum = ((Long) criteria3.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			s.setaNum(aNum);
+
+			s.setRate((float) aNum / (float) rNum);
 
 			System.out.println(s);
 			statistics.add(s);
+
+			session.flush();
+		}
+
+		int row = statistics.size();
+		if (row / pageSize + 1 == pageIndex) {
+			statistics = statistics.subList((pageIndex - 1) * pageSize, row);
+		} else {
+			statistics = statistics.subList((pageIndex - 1) * pageSize, pageIndex * pageSize);
 		}
 
 		tStatistics.setStatistics(statistics);
