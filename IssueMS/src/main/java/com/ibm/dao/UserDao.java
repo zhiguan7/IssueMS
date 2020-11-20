@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ibm.tables.Total_Statistics;
 import com.ibm.tables.User;
 
 public interface UserDao {
@@ -29,12 +30,17 @@ public interface UserDao {
 	//用户分页查询
 	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
+	
 	public String login(int userId, String password) throws SQLException, IOException;
 
+	
 	public List findByName(String username) throws SQLException, IOException;
 
+	
 	public void saveUser(User user) throws SQLException, IOException;
 
-	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException;
+	//issue报表的模糊查询
+	public Total_Statistics searchWithFuzzy(int id, String name,int pageIndex,int pageSize) throws SQLException, IOException;
 
+	
 }

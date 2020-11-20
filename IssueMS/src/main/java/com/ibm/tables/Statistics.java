@@ -6,8 +6,8 @@ public class Statistics {
 	private String userName;
 	private int cNum; //创建issue数
 	private int rNum; //收到issue数
-	private int aNum; //修改issue数
-	private int rate; //完成率
+	private int aNum; //已修改issue数
+	private float rate; //完成率
 	public int getUserId() {
 		return userId;
 	}
@@ -38,10 +38,10 @@ public class Statistics {
 	public void setaNum(int aNum) {
 		this.aNum = aNum;
 	}
-	public int getRate() {
+	public float getRate() {
 		return rate;
 	}
-	public void setRate(int rate) {
-		this.rate = rate;
+	public void setRate(float rate2) {
+		this.rate = rate2;
 	}
 }

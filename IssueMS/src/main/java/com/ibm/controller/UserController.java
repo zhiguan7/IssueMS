@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibm.dao.UserDao;
 import com.ibm.service.UserDaoSevice;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Total_Statistics;
 import com.ibm.tables.User;
 
 @RestController
@@ -58,11 +59,11 @@ public class UserController {
 		return list;
 	}
 	
-	@PostMapping(value = "/searchUser")
-	public List<User> search(@RequestBody Map<String, String> user) throws SQLException, IOException{
-		List<User> list = null;		
-		list = UserDaoService.searchWithFuzzy(Integer.parseInt(user.get("userId")),user.get("userName"));
-		return list;
+	@PostMapping(value = "/searchIssueByuser")
+	public Total_Statistics search(@RequestBody Map<String, String> user) throws SQLException, IOException{
+		Total_Statistics ts	=null;
+		ts = UserDaoService.searchWithFuzzy(Integer.parseInt(user.get("userId")),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
+		return ts;
 	}
 }
 

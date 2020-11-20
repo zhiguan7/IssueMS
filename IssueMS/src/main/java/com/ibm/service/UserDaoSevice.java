@@ -11,10 +11,14 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.UserDao;
+import com.ibm.tables.Statistics;
+import com.ibm.tables.Total_Statistics;
 import com.ibm.tables.User;
+import com.sun.org.glassfish.external.statistics.Statistic;
 
 @Service
 public class UserDaoSevice implements UserDao {
@@ -198,7 +202,7 @@ public class UserDaoSevice implements UserDao {
 	}
 
 	@Override
-	public List<User> searchWithFuzzy(int id, String name) throws SQLException, IOException {
+	public Total_Statistics searchWithFuzzy(int id, String name,int pageIndex,int pageSize) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -211,10 +215,44 @@ public class UserDaoSevice implements UserDao {
 			criteria.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
 		}
 		List<User> list = criteria.list();
-
+		List<Statistics> sList = null;
+		Total_Statistics tStatistics = new Total_Statistics();
+		Statistics s = new Statistics();
+		Query query1 = session.createQuery("from Issue count(*) where create_man=:cm");
+		Query query2 = session.createQuery("from Issue count(*) where update_man=:um");
+		Query query3 = session.createQuery("from Issue count(*) where update_man=:m and status = '关闭' ");
+		for(User u: list) {
+			s.setUserId(u.getUserId());
+			s.setUserName(u.getUserName());
+			
+			query1.setParameter("cm", u.getUserName());
+			Integer ref1 = (Integer)query1.uniqueResult();
+			s.setcNum(ref1);
+			
+			query2.setParameter("um", u.getUserName());
+			Integer ref2 = (Integer)query2.uniqueResult();
+			s.setrNum(ref2);
+			
+			query3.setParameter("m", u.getUserName());
+			Integer ref3 = (Integer)query3.uniqueResult();
+			s.setaNum(ref3);
+			
+			float rate = (float)ref3/ (float)ref2;
+			s.setRate(rate);
+			sList.add(s);
+		}
+//		int row = sList.size();
+//		tStatistics.setTotal(row);
+//		
+//		if(row/pageSize == pageIndex) {
+//			sList = sList.subList((pageIndex-1)*pageSize, row);
+//		}else {
+//			sList = sList.subList((pageIndex-1)*pageSize, pageIndex*pageSize);
+//		}
+		
 		tx.commit();
 		session.close();
-		return list;
+		return tStatistics;
 
 	}
 

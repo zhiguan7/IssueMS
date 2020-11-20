@@ -13,6 +13,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
@@ -95,7 +97,8 @@ public class IssueDaoService implements IssueDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
-				
+		Total_Issue tIssue = new Total_Issue();
+		
 		if(issue.getIssueId()!=0) {
 			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
 		}
@@ -113,18 +116,15 @@ public class IssueDaoService implements IssueDao {
 		}
 		if(issue.getUpdateDate()!=null&&updateDate2!=null) {
 			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
-		}
+		}	
+		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+		criteria.setMaxResults(pageSize);
+		tIssue.setIssue(criteria.list());
 		
-		List<Issue> list = criteria.list();//总
-		Total_Issue tIssue = new Total_Issue();
-		int row = list.size();
-		tIssue.setTotal(row);
-		if(row/pageSize == pageIndex) {
-			list = list.subList((pageIndex-1)*pageSize, row);
-		}else {
-			list = list.subList((pageIndex-1)*pageSize, pageIndex*pageSize);
-		}
-		tIssue.setIssue(list);
+		criteria.setFirstResult(0);
+		int allCounts = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		tIssue.setTotal(allCounts);
+		
 		tx.commit();
 		session.close();
 		return tIssue;
