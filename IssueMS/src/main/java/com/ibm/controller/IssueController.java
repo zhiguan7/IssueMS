@@ -61,45 +61,22 @@ public class IssueController {
 	public Total_Issue searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
 		issueDao = new IssueDaoService();
 		Issue i = new Issue();
-		String c1 = issue.get("createDate").replace("Z", " UTC");
-		String c2 = issue.get("date2").replace("Z", " UTC");
-		String u1 = issue.get("updateDate").replace("Z", " UTC");
-		String u2 = issue.get("date4").replace("Z", " UTC");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
-//		Date time = format.parse(dateTime1);
-//		System.out.println(dateTime1);
-		System.out.println(issue.get("issueId"));
-		
-//		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		i.setIssueId(Integer.parseInt(issue.get("issueId")));
 		i.setStatus(issue.get("status"));
 		i.setCreateMan(issue.get("createMan"));
 		i.setUpdateMan(issue.get("updateMan"));
-//		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("updateDate") , u2 = issue.get("date4");
+		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("date4");
 		Date c3 = null ,u3 = null;
 		if (c1!=null) {
 			i.setCreateDate(format.parse(c1));
 		}
-		if (u1!=null) {
-			i.setUpdateDate(format.parse(u1));
-		}
-		if (c2!=null) {
-			c3 = format.parse(c2);
-		}
-		if (u2!=null) {
-			u3 = format.parse(u2);
-		}
 //		i.setCreateDate(new Date(issue.get("createdate1")));
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
-		System.out.println(i);
-		System.out.println(c1);
-		System.out.println(c2);
-		System.out.println(u1);
-		System.out.println(u2);
 		Total_Issue tIssue = null;
 		tIssue = issueDao.searchWithFuzzy(i,c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
 		return tIssue;
-	}
+}
 	
 	//退回修改
 	@CrossOrigin

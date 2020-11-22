@@ -27,6 +27,7 @@ public class UserController {
 	@Autowired
 	private UserDaoSevice UserDaoService;
 	
+	@CrossOrigin
 	@PostMapping("/queryAll/user")
 	public Total_User queryAll()  throws SQLException, IOException{
 		Total_User list = null;
@@ -34,22 +35,26 @@ public class UserController {
 		return list;
 	}
 	
-	
+	@CrossOrigin
 	@PostMapping("/updateUser")
 	public int update(@RequestBody Map<String, String> page) throws SQLException, IOException{
+		System.out.println("----------------------"+page);
 		int i = UserDaoService.update(Integer.parseInt(page.get("userId")), page.get("userName")
 				, page.get("email"), page.get("pwd1"), page.get("pwd2"));
 		return i;
 	}
 	
+	@CrossOrigin
 	@PostMapping("/cancellationUser")
 	public int cancellationUser(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
 		int i = UserDaoService.cancellationUser(page.get("userId"));
 		return i;
 	}
 	
+	@CrossOrigin
 	@PostMapping("/UpdateAuthority")
 	public int UpdateAuthority(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
+		System.out.println("__________"+page);
 		int i = UserDaoService.UpdateAuthority(page.get("userId"));
 		return i;
 	}
@@ -62,6 +67,7 @@ public class UserController {
 //		return list;
 //	}
 	
+	@CrossOrigin
 	@PostMapping(value = "/searchIssueByuser")
 	public Total_Statistics search(@RequestBody Map<String, String> user) throws SQLException, IOException{
 		Total_Statistics ts	=null;
