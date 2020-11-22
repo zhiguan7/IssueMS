@@ -31,7 +31,7 @@ public interface UserDao {
 //	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
 	
-	public String login(int userId, String password) throws SQLException, IOException;
+	public User login(int userId, String password) throws SQLException, IOException;
 
 	
 	public List findByName(String username) throws SQLException, IOException;

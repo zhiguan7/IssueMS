@@ -42,27 +42,27 @@ public class IssueDaoService implements IssueDao {
 	
 	public int insert(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
-		session.beginTransaction();
+		Transaction tx = session.beginTransaction();
 		System.out.println(issue);
-		String sql = "INSERT INTO issue ( issue_name, status, create_date, create_man, level, type, beta, user_id, update_man, step, solution, plan_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		SQLQuery query = session.createSQLQuery(sql);
-		query.setString(1, issue.getIssueName());
-		query.setString(2, "未验证");
-		query.setString(3, DateFormat.getDateInstance().format(new Date()));
-		query.setString(4, issue.getCreateMan());
-		query.setInteger(5, issue.getLevel());
-		query.setString(6, issue.getType());
-		query.setString(7, issue.getBeta());
-		query.setInteger(8, issue.getUserId());
-		query.setString(9, issue.getUpdateMan());
-		query.setString(10, issue.getStep());
-		query.setString(11, issue.getSolution());
-		query.setDate(12, issue.getPlanDate());
-//		session.save(issue);
-		int i = query.executeUpdate();
-//		tx.commit();
-		session.close();
-		return i;
+//		String sql = "INSERT INTO issue ( issue_name, status, create_date, create_man, level, type, beta, user_id, update_man, step, solution, plan_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+//		SQLQuery query = session.createSQLQuery(sql);
+//		query.setString(1, issue.getIssueName());
+//		query.setString(2, "未验证");
+//		query.setString(3, DateFormat.getDateInstance().format(new Date()));
+//		query.setString(4, issue.getCreateMan());
+//		query.setInteger(5, issue.getLevel());
+//		query.setString(6, issue.getType());
+//		query.setString(7, issue.getBeta());
+//		query.setInteger(8, issue.getUserId());
+//		query.setString(9, issue.getUpdateMan());
+//		query.setString(10, issue.getStep());
+//		query.setString(11, issue.getSolution());
+//		query.setDate(12, issue.getPlanDate());
+		session.save(issue);
+//		int i = query.executeUpdate();
+		 tx.commit();
+//		session.close();
+		return 1;
 	}
 
 	public List<Issue> queryAll() throws SQLException, IOException {
@@ -76,7 +76,7 @@ public class IssueDaoService implements IssueDao {
 		Transaction tx = session.beginTransaction();
 		session.delete(issue);
 		tx.commit();
-		session.close();
+//		session.close();
 	}
 
 	public int update(Issue issue) throws SQLException, IOException {
@@ -87,13 +87,19 @@ public class IssueDaoService implements IssueDao {
 		query.setInteger(2, issue.getIssueId());
 		int i = query.executeUpdate();
 		tx.commit();
-		session.close();
+//		session.close();
 		return i;
 	}
 	
 	
 	public Total_Issue searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
-
+		System.out.println("------------------------------");
+		System.out.println(issue);
+		System.out.println(createDate2);
+		System.out.println(updateDate2);
+		System.out.println(pageIndex);
+		System.out.println(pageSize);
+		System.out.println("------------------------------");
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
@@ -126,7 +132,7 @@ public class IssueDaoService implements IssueDao {
 		tIssue.setTotal(allCounts);
 		
 		tx.commit();
-		session.close();
+//		session.close();
 		return tIssue;
 	}
 

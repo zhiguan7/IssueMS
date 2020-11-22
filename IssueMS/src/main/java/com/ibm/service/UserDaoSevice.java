@@ -160,23 +160,26 @@ public class UserDaoSevice implements UserDao {
 //		return list;
 //	}
 
-	public String login(int userId, String password) throws SQLException, IOException {
+	public User login(int userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = session.get(User.class, userId);
 		if (user == null) {
 			System.out.println("该用户不存在");
-			return "0";
+			user.setIdentity("4");
+			return user;
 		} else if (!user.getPassword().equals(password)) {
 			System.out.println("密码错误");
-			return "1";
+			user.setIdentity("5");
+			return user;
 		} else if (user.getStatus().equals("注销")) {
 			System.out.println("登录失败，该用户已注销");
-			return "2";
+			user.setIdentity("6");
+			return user;
 		} else {
 //			System.out.println(
 //					"{name:" + user.getUserName() + "userid:" + user.getUserId() + "iden:" + user.getIdentity() + "}");
-			return "{name:" + user.getUserName() + " userid:" + user.getUserId() + " iden:" + user.getIdentity() + "}";
+			return user;
 		}
 //		tx.commit();
 //		return null;

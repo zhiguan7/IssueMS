@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,15 +25,16 @@ public class LoginControl {
 //	public String toLogin() {
 //		return "/login";
 //	}
-
+	@CrossOrigin
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 //	@ResponseBody
-	public String login(@RequestBody User user) throws SQLException, IOException {
+	public User login(@RequestBody User user) throws SQLException, IOException {
+		System.out.println(user);
 		int userid = user.getUserId();
 		String password = user.getPassword();
-		String reString = userDaoSevice.login(userid, password);
-		System.out.println(reString);
-		return reString;
+		User user1 = userDaoSevice.login(userid, password);
+		System.out.println(user1);
+		return user1;
 	}
 
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,16 +56,26 @@ public class IssueController {
 	    *  修改时间: updatedate1 至 updatedate2
 	 *
 	 * */
+	@CrossOrigin
 	@RequestMapping(value = "/searchIssue",method = RequestMethod.POST)
 	public Total_Issue searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
 		issueDao = new IssueDaoService();
 		Issue i = new Issue();
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		i.setIssueId(Integer.parseInt(issue.get("issueid")));
+		String c1 = issue.get("createDate").replace("Z", " UTC");
+		String c2 = issue.get("date2").replace("Z", " UTC");
+		String u1 = issue.get("updateDate").replace("Z", " UTC");
+		String u2 = issue.get("date4").replace("Z", " UTC");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+//		Date time = format.parse(dateTime1);
+//		System.out.println(dateTime1);
+		System.out.println(issue.get("issueId"));
+		
+//		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		i.setIssueId(Integer.parseInt(issue.get("issueId")));
 		i.setStatus(issue.get("status"));
-		i.setCreateMan(issue.get("createman"));
-		i.setUpdateMan(issue.get("updateman"));
-		String c1 = issue.get("createdate1"),c2 = issue.get("createdate2") , u1 = issue.get("updatedate1") , u2 = issue.get("updatedate2");
+		i.setCreateMan(issue.get("createMan"));
+		i.setUpdateMan(issue.get("updateMan"));
+//		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("updateDate") , u2 = issue.get("date4");
 		Date c3 = null ,u3 = null;
 		if (c1!=null) {
 			i.setCreateDate(format.parse(c1));
@@ -80,12 +91,18 @@ public class IssueController {
 		}
 //		i.setCreateDate(new Date(issue.get("createdate1")));
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
+		System.out.println(i);
+		System.out.println(c1);
+		System.out.println(c2);
+		System.out.println(u1);
+		System.out.println(u2);
 		Total_Issue tIssue = null;
 		tIssue = issueDao.searchWithFuzzy(i,c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
 		return tIssue;
 	}
 	
 	//退回修改
+	@CrossOrigin
 	@RequestMapping(value = "/back",method = RequestMethod.GET)
 	public boolean Back() throws SQLException, IOException{
 		issueDao = new IssueDaoService();
@@ -97,6 +114,7 @@ public class IssueController {
 	}
 	
 	//关闭issue
+	@CrossOrigin
 	@RequestMapping(value = "/finish",method = RequestMethod.GET)
 	public boolean finish() throws SQLException, IOException{
 		issueDao = new IssueDaoService();
@@ -108,14 +126,17 @@ public class IssueController {
 	}
 	
 	//创建issue
+	@CrossOrigin
 	@PostMapping(path = "/createIssue")
 	public int createIssue(@RequestBody Issue issue) throws SQLException, IOException {
+		System.out.println(issue);
 		issueDao = new  IssueDaoService();
 		int i = issueDao.insert(issue);
 		return i;
 	}
 	
 	//修改issue-填写解决方案
+	@CrossOrigin
 	@PostMapping(path = "/updateSolotion")
 	public int updateSolotion(@RequestBody Issue issue) throws SQLException, IOException {
 		issueDao = new  IssueDaoService();
