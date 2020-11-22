@@ -41,7 +41,7 @@ CREATE TABLE `issue` (
   PRIMARY KEY (`issue_id`),
   KEY `iu_fk_idx` (`user_id`),
   CONSTRAINT `iu_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,6 +50,7 @@ CREATE TABLE `issue` (
 
 LOCK TABLES `issue` WRITE;
 /*!40000 ALTER TABLE `issue` DISABLE KEYS */;
+INSERT INTO `issue` VALUES (1,'bug','关闭',NULL,'张三',1,NULL,NULL,1,NULL,'五六七',NULL,NULL,NULL,'2020-11-19'),(2,'bug','关闭',NULL,'张三',1,NULL,NULL,1,NULL,'五六七',NULL,NULL,NULL,'2020-11-19'),(3,'11111',NULL,NULL,'1',0,'1111','11111',1,NULL,'11111','1111','',NULL,NULL),(4,'312',NULL,NULL,'1',0,'1321','1321',1,NULL,'123213','213213','',NULL,NULL),(5,'1123',NULL,NULL,'1',0,'12313213','231312321',1,NULL,'23132131','23132131','',NULL,NULL),(6,'123',NULL,NULL,'1',0,'12313','2313213',1,NULL,'2143214','2131231','',NULL,NULL),(7,'123',NULL,NULL,'1',0,'313213','231321',1,NULL,'1232131','aaa','',NULL,NULL),(8,'123',NULL,NULL,'1',0,'weqeq','qweqe',1,NULL,'231','wqeqeq','',NULL,NULL),(9,'313',NULL,NULL,'1',0,'sdadad','sdad',1,NULL,'2313213','sdada','',NULL,NULL),(10,'675',NULL,NULL,'1',0,'123213','231313',1,NULL,'13123','1232131','',NULL,NULL),(11,'897','待修改','2020-11-18','1',0,'2131','2313',1,'2020-11-18','21321','2321231','','2020-11-18','2020-11-18'),(12,'222',NULL,NULL,'1',0,'双方都','111',1,NULL,'车祸','4444444444444444444','','2020-11-09',NULL),(13,'222',NULL,'2020-11-22','1',0,'双方都','111',1,NULL,'车祸','4444444444444444444','','2020-11-09',NULL),(14,'22',NULL,'2020-11-22','1',0,'双方都','111',1,NULL,'车祸','4444444444444444444','','2020-11-09',NULL),(15,'333',NULL,'2020-11-22','1',0,'33333','3333',1,NULL,'333','323232','','2020-11-11',NULL),(16,'33',NULL,'2020-11-22','1',0,'33333','3333',1,NULL,'333','323232','','2020-11-11',NULL),(17,'而温热',NULL,'2020-11-22','1',2,'ASDAD','asd',1,NULL,'asds','SADADADSAD','','2020-11-17',NULL),(18,'而温','待解决','2020-11-22','1',2,'ASDAD','asd',1,NULL,'asds','SADADADSAD','','2020-11-17',NULL),(19,'而温21','待解决','2020-11-22','1',2,'ASDAD','asd',1,NULL,'asds','SADADADSAD','','2020-11-17',NULL),(20,'2313','待解决','2020-11-22','1',2,'1232','21313',1,NULL,'21323','12312313','','2020-11-17',NULL),(21,'231','待解决','2020-11-22','1',2,'23131','231312',1,NULL,'2313','23132132','','2020-11-12',NULL),(22,'231','待解决','2020-11-22','1',2,'23131','231312',1,NULL,'2313','23132132','','2020-11-12',NULL);
 /*!40000 ALTER TABLE `issue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +64,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` int(30) NOT NULL,
   `user_name` varchar(20) DEFAULT NULL,
-  `password` int(30) DEFAULT NULL,
+  `password` varchar(30) DEFAULT NULL,
   `email` varchar(30) DEFAULT NULL,
   `create_date` date DEFAULT NULL,
   `identity` varchar(20) DEFAULT NULL,
@@ -78,7 +79,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'1',1,'1','2010-10-10','1','1'),(2,'2',2,'2','2010-10-10','2','2'),(3,'4',3,'3','2010-10-10','3','3'),(4,'5',4,'4','2010-10-10','4','4');
+INSERT INTO `user` VALUES (1,'1','1','1','2010-10-10','1','注销'),(2,'2','2','2','2010-10-10','2','2'),(3,'4','3','3','2010-10-10','经理','注销'),(4,'5','4','4','2010-10-10','经理','注销'),(6,'张三','12345','123456@163.com','2020-11-18','经理','注销'),(7,'3','3','3','2020-11-18','3','3'),(213213,'32132131','sSW','额外额外企鹅@com','2020-11-22','普通用户','激活');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -91,4 +92,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-18 14:53:52
+-- Dump completed on 2020-11-22 18:16:28
