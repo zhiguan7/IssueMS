@@ -2,18 +2,18 @@ package com.ibm.tables;
 
 public class Statistics {
 
-	private int userId;
+	private String userId;
 	private String userName;
 	private int cNum; // 创建issue数
 	private int rNum; // 收到issue数
 	private int aNum; // 已修改issue数
 	private float rate; // 完成率
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -62,4 +62,6 @@ public class Statistics {
 		return "Statistics [userId=" + userId + ", userName=" + userName + ", cNum=" + cNum + ", rNum=" + rNum
 				+ ", aNum=" + aNum + ", rate=" + rate + "]";
 	}
+
+	
 }

@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 import com.ibm.tables.Total_Issue;
-import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import javassist.expr.NewArray;

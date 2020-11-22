@@ -16,22 +16,22 @@ public interface UserDao {
 	public void delete(User user) throws SQLException, IOException;
 
 	// 用户修改个人信息
-	public int update(int userId, String userName, String email, String pwd1, String pwd2)throws SQLException, IOException;
+	public int update(String userId, String userName, String email, String pwd1, String pwd2)throws SQLException, IOException;
 
 	// 查询所有
 	public Total_User queryAll() throws SQLException, IOException;
 
 	// 超级Admin注销用户
-	public int cancellationUser(int userid) throws SQLException, IOException;
+	public int cancellationUser(String userid) throws SQLException, IOException;
 
 	// 超级Admin修改权限
-	public int UpdateAuthority(int userid) throws SQLException, IOException;
+	public int UpdateAuthority(String userid) throws SQLException, IOException;
 	
 	//用户分页查询
 //	public List<User> UsearchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
 	
-	public User login(int userId, String password) throws SQLException, IOException;
+	public User login(String userId, String password) throws SQLException, IOException;
 
 	
 	public List findByName(String username) throws SQLException, IOException;
@@ -40,9 +40,9 @@ public interface UserDao {
 	public void saveUser(User user) throws SQLException, IOException;
 
 	//issue报表的模糊查询
-	public Total_Statistics searchWithFuzzy(int id, String name,int pageIndex,int pageSize) throws SQLException, IOException;
+	public Total_Statistics searchWithFuzzy(String id, String name,int pageIndex,int pageSize) throws SQLException, IOException;
 	
 	//超级Admin用户页面的模糊查询并实现分页
-	public Total_User AdminFuzzyquery(int id,String name,int pageIndex,int pageSize) throws SQLException, IOException;
+	public Total_User AdminFuzzyquery(String id,String name,int pageIndex,int pageSize) throws SQLException, IOException;
 	
 }

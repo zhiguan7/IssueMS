@@ -33,7 +33,7 @@ public class RegistControl {
 		String username = user.getUserName();
 		String password = user.getPassword();
 		String email = user.getEmail();
-		int userid = user.getUserId();
+		String userid = user.getUserId();
 //		String status = user.getStatus();
 
 		List resultString = userDaoSevice.findByName(username);

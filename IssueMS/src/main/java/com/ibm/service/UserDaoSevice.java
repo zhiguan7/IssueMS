@@ -27,41 +27,8 @@ public class UserDaoSevice implements UserDao {
 
 	private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
-//  测试代码
-	public static void main(String[] args) throws SQLException, IOException {
-//		ueryAll();
-//		System.out.println("---------------------------");
-//		UserDaoSevice u = new UserDaoSevice();
-//		User user1 = new User();
-//		user1.setUserId(6);
-//		user1.setUserName("ղķ˹");
-//		user1.setPassword("8888888");
-//		user1.setEmail("10000@qq.com");
-//		user1.setCreateDate(new Date());
-//		user1.setIdentity("����Ա");
-//		user1.setStatus("ע��");
-//		user1.toString();
-//		u.insert(user1);
-//		ueryAll();
-//		User user2 = new User();
-//		user2.setUserId(6);
-//		delete(user2);
-//		User user3 = new User();
-//		user3.setUserId(4);
-//		user3.setUserName("ղķ˹");
-//		user3.setPassword("8888888");
-//		user3.setEmail("10000@qq.com");
-//		user3.setCreateDate(new Date());
-//		user3.setIdentity("����Ա");
-//		user3.setStatus("ע��");
-//		user3.toString();
-//		update(user3);
-//		ueryAll();
-//
-//		factory.close();
-
-	}
-
+	
+	
 	public void insert(User user) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -94,12 +61,15 @@ public class UserDaoSevice implements UserDao {
 		session.close();
 	}
 
-	public int update(int userid, String userName, String email, String pwd1, String pwd2)
+	public int update(String userid, String userName, String email, String pwd1, String pwd2)
 			throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, userid);
-		if (user.getPassword().equals(pwd1) || !(pwd1.equals(pwd2))) {
+		Criteria cr = session.createCriteria(User.class);
+		cr.add(Restrictions.eq("userId", userid));
+		List<User> result = cr.list();
+		User user = result.get(0);
+		if (!(pwd1.equals(pwd2))) {
 			return 0;
 		} else {
 			user.setUserName(userName);
@@ -113,11 +83,15 @@ public class UserDaoSevice implements UserDao {
 		return 1;
 	}
 
-	public int cancellationUser(int userid) throws SQLException, IOException {
+	public int cancellationUser(String userid) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			User user = (User) session.get(User.class, userid);
+//			User user = (User) session.get(User.class, userid);
+			Criteria cr = session.createCriteria(User.class);
+			cr.add(Restrictions.eq("userId", userid));
+			List<User> result = cr.list();
+			User user = result.get(0);
 			user.setStatus("注销");
 			session.update(user);
 			tx.commit();
@@ -129,11 +103,15 @@ public class UserDaoSevice implements UserDao {
 		return 1;
 	}
 
-	public int UpdateAuthority(int userid) throws SQLException, IOException {
+	public int UpdateAuthority(String userid) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			User user = (User) session.get(User.class, userid);
+//			User user = (User) session.get(User.class, userid);
+			Criteria cr = session.createCriteria(User.class);
+			cr.add(Restrictions.eq("userId", userid));
+			List<User> result = cr.list();
+			User user = result.get(0);
 			user.setIdentity("经理");
 			session.update(user);
 			tx.commit();
@@ -160,10 +138,14 @@ public class UserDaoSevice implements UserDao {
 //		return list;
 //	}
 
-	public User login(int userId, String password) throws SQLException, IOException {
+	public User login(String userId, String password) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = session.get(User.class, userId);
+//		User user = session.get(User.class, userId);
+		Criteria cr = session.createCriteria(User.class);
+		cr.add(Restrictions.eq("userId", userId));
+		List<User> result = cr.list();
+		User user = result.get(0);
 		if (user == null) {
 			System.out.println("该用户不存在");
 			user.setIdentity("4");
@@ -217,7 +199,7 @@ public class UserDaoSevice implements UserDao {
 	}
 
 	@Override
-	public Total_Statistics searchWithFuzzy(int id, String name, int pageIndex, int pageSize)
+	public Total_Statistics searchWithFuzzy(String id, String name, int pageIndex, int pageSize)
 			throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
@@ -229,8 +211,8 @@ public class UserDaoSevice implements UserDao {
 		List<Statistics> statistics = new ArrayList<Statistics>();
 		List<User> list = null;
 
-		if (id != 0) {
-			criteria4.add(Restrictions.and(Restrictions.eq("userId", id)));
+		if (id != null) {
+			criteria4.add(Restrictions.and(Restrictions.like("userId", id, MatchMode.ANYWHERE)));
 		}
 		if (name != null) {
 			criteria4.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
@@ -284,15 +266,15 @@ public class UserDaoSevice implements UserDao {
 
 	}
 
-	public Total_User AdminFuzzyquery(int useid, String username, int pageIndex, int pageSize)
+	public Total_User AdminFuzzyquery(String useid, String username, int pageIndex, int pageSize)
 			throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(User.class);
 		Total_User user = new Total_User();
 
-		if (useid != 0) {
-			criteria.add(Restrictions.and(Restrictions.eq("userId", useid)));
+		if (useid != null) {
+			criteria.add(Restrictions.and(Restrictions.like("userId", useid, MatchMode.ANYWHERE)));
 		}
 		if (username != null) {
 			criteria.add(Restrictions.and(Restrictions.like("userName", username, MatchMode.ANYWHERE)));

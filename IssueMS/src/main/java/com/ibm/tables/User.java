@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-	private int userId;
+	private String userId;
 	private String userName;
 	private String password;
 	private String email;
@@ -17,7 +17,7 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int userId, String userName, String password, String email, Date createDate, String identity,
+	public User(String userId, String userName, String password, String email, Date createDate, String identity,
 			String status) {
 		super();
 		this.userId = userId;
@@ -29,11 +29,11 @@ public class User {
 		this.status = status;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -90,6 +90,6 @@ public class User {
 		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
 				+ ", createDate=" + createDate + ", identity=" + identity + ", status=" + status + "]";
 	}
-	
+
 
 }

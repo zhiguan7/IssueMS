@@ -29,7 +29,7 @@
         <property name="beta" type="java.lang.String">
             <column name="beta" />
         </property>
-        <property name="userId" type="java.lang.Integer">
+        <property name="userId" type="java.lang.String">
             <column name="user_id" />
         </property>
      
