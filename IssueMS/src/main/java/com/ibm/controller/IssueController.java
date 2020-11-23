@@ -81,10 +81,10 @@ public class IssueController {
 	//退回修改
 	@CrossOrigin
 	@RequestMapping(value = "/back",method = RequestMethod.GET)
-	public boolean Back() throws SQLException, IOException{
+	public boolean Back(@RequestBody Map<String, Integer> i) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
-		issue.setIssueId(1);
+		issue.setIssueId(i.get("issueId"));
 		boolean flag = false;
 		flag = issueDao.backChange(issue);
 		return flag;
@@ -93,10 +93,10 @@ public class IssueController {
 	//关闭issue
 	@CrossOrigin
 	@RequestMapping(value = "/finish",method = RequestMethod.GET)
-	public boolean finish() throws SQLException, IOException{
+	public boolean finish(@RequestBody Map<String, Integer> i) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
-		issue.setIssueId(1);
+		issue.setIssueId(i.get("issueId"));
 		boolean flag = false;
 		flag = issueDao.closeChange(issue);
 		return flag;
