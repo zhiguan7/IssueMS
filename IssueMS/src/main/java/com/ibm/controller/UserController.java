@@ -29,10 +29,12 @@ public class UserController {
 	
 	@CrossOrigin
 	@PostMapping("/queryAll/user")
-	public Total_User queryAll()  throws SQLException, IOException{
+	public int checkUser()  throws SQLException, IOException{
+		int i = -1;
 		Total_User list = null;
 		list = UserDaoService.queryAll();
-		return list;
+		
+		return i;
 	}
 	
 	@CrossOrigin

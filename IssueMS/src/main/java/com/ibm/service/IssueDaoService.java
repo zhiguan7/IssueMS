@@ -21,6 +21,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ibm.dao.IssueDao;
+import com.ibm.dao.UserDao;
 import com.ibm.tables.Issue;
 import com.ibm.tables.Total_Issue;
 import com.ibm.tables.User;
@@ -45,22 +46,17 @@ public class IssueDaoService implements IssueDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		System.out.println(issue);
-//		String sql = "INSERT INTO issue ( issue_name, status, create_date, create_man, level, type, beta, user_id, update_man, step, solution, plan_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-//		SQLQuery query = session.createSQLQuery(sql);
-//		query.setString(1, issue.getIssueName());
-//		query.setString(2, "未验证");
-//		query.setString(3, DateFormat.getDateInstance().format(new Date()));
-//		query.setString(4, issue.getCreateMan());
-//		query.setInteger(5, issue.getLevel());
-//		query.setString(6, issue.getType());
-//		query.setString(7, issue.getBeta());
-//		query.setInteger(8, issue.getUserId());
-//		query.setString(9, issue.getUpdateMan());
-//		query.setString(10, issue.getStep());
-//		query.setString(11, issue.getSolution());
-//		query.setDate(12, issue.getPlanDate());
 		issue.setStatus("待解决");
 		issue.setCreateDate(new Date());
+		UserDao userservice = new UserDaoSevice();
+		List<User> uList  = userservice.queryAll().getUsers();
+		int b = -1;
+		for(int a = 0;a<uList.size();a++) {
+			if(uList.get(a).getUserId().compareTo(issue.getUpdateMan())==0) {
+				b=1;
+				}
+		}
+		if(b==1) {
 		int i = -1;
 		try {
 			session.save(issue);
@@ -73,6 +69,10 @@ public class IssueDaoService implements IssueDao {
 		i = 1;
 //		session.close();
 		return i;
+		}else {
+			return 2;
+		}
+		
 	}
 
 	public List<Issue> queryAll() throws SQLException, IOException {
