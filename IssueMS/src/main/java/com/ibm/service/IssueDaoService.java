@@ -126,7 +126,7 @@ public class IssueDaoService implements IssueDao {
 			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
 		}	
 		criteria.addOrder(Order.desc("createDate"));
-		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
+		criteria.setFirstResult((pageIndex-1)*pageSize); 
 		criteria.setMaxResults(pageSize);
 		tIssue.setIssue(criteria.list());
 		

@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
@@ -285,6 +286,7 @@ public class UserDaoSevice implements UserDao {
 		if (username != null) {
 			criteria.add(Restrictions.and(Restrictions.like("userName", username, MatchMode.ANYWHERE)));
 		}
+		criteria.addOrder(Order.asc("userId"));
 		criteria.setFirstResult((pageIndex - 1) * pageSize);
 		criteria.setMaxResults(pageSize);
 		user.setUsers(criteria.list());
