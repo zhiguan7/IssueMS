@@ -74,7 +74,7 @@ public class IssueController {
 //		i.setCreateDate(new Date(issue.get("createdate1")));
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
 		Total_Issue tIssue = null;
-		tIssue = issueDao.searchWithFuzzy(i,c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
+		tIssue = issueDao.searchWithFuzzy(i,issue.get("userId"),c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
 		return tIssue;
 }
 	
