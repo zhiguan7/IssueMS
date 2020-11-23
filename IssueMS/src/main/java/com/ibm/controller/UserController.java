@@ -26,6 +26,7 @@ public class UserController {
 	@Autowired
 	private UserDaoSevice UserDaoService;
 	
+	@CrossOrigin
 	@PostMapping("/queryAll/user")
 	public Total_User queryAll()  throws SQLException, IOException{
 		Total_User list = null;
@@ -33,22 +34,26 @@ public class UserController {
 		return list;
 	}
 	
-	
+	@CrossOrigin
 	@PostMapping("/updateUser")
 	public int update(@RequestBody Map<String, String> page) throws SQLException, IOException{
-		int i = UserDaoService.update(Integer.parseInt(page.get("userId")), page.get("userName")
+//		System.out.println("----------------------"+page);
+		int i = UserDaoService.update(page.get("userId"), page.get("userName")
 				, page.get("email"), page.get("pwd1"), page.get("pwd2"));
 		return i;
 	}
 	
+	@CrossOrigin
 	@PostMapping("/cancellationUser")
-	public int cancellationUser(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
+	public int cancellationUser(@RequestBody Map<String, String> page) throws SQLException, IOException{
 		int i = UserDaoService.cancellationUser(page.get("userId"));
 		return i;
 	}
 	
+	@CrossOrigin
 	@PostMapping("/UpdateAuthority")
-	public int UpdateAuthority(@RequestBody Map<String, Integer> page) throws SQLException, IOException{
+	public int UpdateAuthority(@RequestBody Map<String, String> page) throws SQLException, IOException{
+//		System.out.println("__________"+page);
 		int i = UserDaoService.UpdateAuthority(page.get("userId"));
 		return i;
 	}
@@ -61,10 +66,11 @@ public class UserController {
 //		return list;
 //	}
 	
+	@CrossOrigin
 	@PostMapping(value = "/searchIssueByuser")
 	public Total_Statistics search(@RequestBody Map<String, String> user) throws SQLException, IOException{
 		Total_Statistics ts	=null;
-		ts = UserDaoService.searchWithFuzzy(Integer.parseInt(user.get("userId")),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
+		ts = UserDaoService.searchWithFuzzy(user.get("userId"),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
 		return ts;
 	}
 	
@@ -72,8 +78,8 @@ public class UserController {
 	public Total_User AdminFuzzyquery(@RequestBody Map<String, String> user) throws SQLException, IOException{
 		
 		Total_User ts	=null;
-		System.out.println(user);
-		ts = UserDaoService.AdminFuzzyquery(Integer.parseInt(user.get("userId")),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
+//		System.out.println(user);
+		ts = UserDaoService.AdminFuzzyquery(user.get("userId"),user.get("userName"),Integer.parseInt(user.get("pageIndex")),Integer.parseInt(user.get("pageSize")));
 		return ts;
 	}
 }

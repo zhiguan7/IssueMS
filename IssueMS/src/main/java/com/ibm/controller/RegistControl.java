@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ public class RegistControl {
 
 	@Autowired
 	private UserDaoSevice userDaoSevice;
-
+	@CrossOrigin
 	@RequestMapping(value = "/regist", method = { RequestMethod.GET, RequestMethod.POST })
 	public String regist(@RequestBody User user /*
 												 * @RequestParam String username, @RequestParam String password,
@@ -27,11 +28,12 @@ public class RegistControl {
 												 * @RequestParam String pwd, @RequestParam String email, @RequestParam
 												 * int userid
 												 */) throws SQLException, IOException {
+		System.out.println(user);
 
 		String username = user.getUserName();
 		String password = user.getPassword();
 		String email = user.getEmail();
-		int userid = user.getUserId();
+		String userid = user.getUserId();
 //		String status = user.getStatus();
 
 		List resultString = userDaoSevice.findByName(username);
@@ -56,9 +58,15 @@ public class RegistControl {
 		user2.setStatus("激活");
 		user2.setIdentity("普通用户");
 		user2.toString();
-		userDaoSevice.saveUser(user2);
+		try {
+			userDaoSevice.saveUser(user2);
+		}catch (Exception e) {
+			// TODO: handle exception
+			return "0";
+		}
+		
 		System.out.println(user2);
-		return "2";
+		return "1";
 
 	}
 

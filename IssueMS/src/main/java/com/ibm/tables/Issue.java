@@ -12,7 +12,7 @@ public class Issue {
 	private int level;
 	private String type;
 	private String beta;
-	private Integer userId;
+	private String userId;
 	private Date updateDate;
 	private String updateMan;
 	private String step;
@@ -74,10 +74,10 @@ public class Issue {
 	public void setBeta(String beta) {
 		this.beta = beta;
 	}
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public Date getUpdateDate() {
@@ -117,7 +117,7 @@ public class Issue {
 		this.finalDate = finalDate;
 	}
 	public Issue(Integer issueId, String issueName, String status, Date createDate, String createMan, int level,
-			String type, String beta, Integer userId, Date updateDate, String updateMan, String step, String solution,
+			String type, String beta, String userId, Date updateDate, String updateMan, String step, String solution,
 			Date planDate, Date finalDate) {
 		super();
 		this.issueId = issueId;

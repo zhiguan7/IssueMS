@@ -29,11 +29,11 @@ public class LoginControl {
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 //	@ResponseBody
 	public User login(@RequestBody User user) throws SQLException, IOException {
-		System.out.println(user);
-		int userid = user.getUserId();
+//		System.out.println(user);
+		String userid = user.getUserId();
 		String password = user.getPassword();
 		User user1 = userDaoSevice.login(userid, password);
-		System.out.println(user1);
+//		System.out.println(user1);
 		return user1;
 	}
 
