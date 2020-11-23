@@ -145,21 +145,30 @@ public class UserDaoSevice implements UserDao {
 //		User user = session.get(User.class, userId);
 		Criteria cr = session.createCriteria(User.class);
 		cr.add(Restrictions.eq("userId", userId));
+		System.out.println("--------------------"+cr);
 		List<User> result = cr.list();
-		User user = result.get(0);
-		if (user == null) {
+		System.out.println("-----------------"+result);
+		User user = new User();
+		if(!result.isEmpty()) {
+			user = result.get(0);
+		}
+		if (result.isEmpty()) {
 			System.out.println("该用户不存在");
 			user.setIdentity("该用户不存在");
 			return user;
-		} else if (!user.getPassword().equals(password)) {
+		} 
+		else if (!user.getPassword().equals(password)) {
+			
 			System.out.println("密码错误");
 			user.setIdentity("密码错误");
 			return user;
 		} else if (user.getStatus().equals("注销")) {
+			
 			System.out.println("登录失败，该用户已注销");
 			user.setIdentity("登录失败，该用户已注销");
 			return user;
 		} else {
+			user = result.get(0);
 //			System.out.println(
 //					"{name:" + user.getUserName() + "userid:" + user.getUserId() + "iden:" + user.getIdentity() + "}");
 			return user;
