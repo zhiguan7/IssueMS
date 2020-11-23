@@ -36,7 +36,7 @@ public class RegistControl {
 		String userid = user.getUserId();
 //		String status = user.getStatus();
 
-		List resultString = userDaoSevice.findByName(username);
+		List resultString = userDaoSevice.findByName(userid);
 		if (!resultString.isEmpty()) {
 			System.out.println("用户已存在");
 			return "0";
@@ -62,7 +62,7 @@ public class RegistControl {
 			userDaoSevice.saveUser(user2);
 		}catch (Exception e) {
 			// TODO: handle exception
-			return "0";
+			return "2";
 		}
 		
 		System.out.println(user2);

@@ -164,8 +164,8 @@ public class UserDaoSevice implements UserDao {
 			return user;
 		} else if (user.getStatus().equals("注销")) {
 			
-			System.out.println("登录失败，该用户已注销");
-			user.setIdentity("登录失败，该用户已注销");
+			System.out.println("用户已注销");
+			user.setIdentity("用户已注销");
 			return user;
 		} else {
 			user = result.get(0);
@@ -182,7 +182,7 @@ public class UserDaoSevice implements UserDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria cr = session.createCriteria(User.class);
-		cr.add(Restrictions.eq("userName", userName));
+		cr.add(Restrictions.eq("userId", userName));
 		List result = cr.list();
 		System.out.println(result);
 		tx.commit();
