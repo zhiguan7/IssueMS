@@ -204,7 +204,9 @@ public class UserDaoSevice implements UserDao {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-
+		Criteria criteria1 = null;
+		Criteria criteria2 = null;
+		Criteria criteria3 = null;
 		Criteria criteria4 = session.createCriteria(User.class);
 		Total_Statistics tStatistics = new Total_Statistics();
 		Statistics s = null;
@@ -217,15 +219,19 @@ public class UserDaoSevice implements UserDao {
 		if (name != null) {
 			criteria4.add(Restrictions.and(Restrictions.like("userName", name, MatchMode.ANYWHERE)));
 		}
+		
+//		int row = list.size();
+		criteria4.setFirstResult((pageIndex-1)*pageSize);
+		criteria4.setMaxResults(pageSize);
 		list = criteria4.list();
 
 		for (User i : list) {
 			s = new Statistics();
 			s.setUserId(i.getUserId());
 			s.setUserName(i.getUserName());
-			Criteria criteria1 = session.createCriteria(Issue.class);
-			Criteria criteria2 = session.createCriteria(Issue.class);
-			Criteria criteria3 = session.createCriteria(Issue.class);
+			criteria1 = session.createCriteria(Issue.class);
+			criteria2 = session.createCriteria(Issue.class);
+			criteria3 = session.createCriteria(Issue.class);
 
 			criteria1.add(Restrictions.eq("userId", i.getUserId()));
 			int cNum = ((Long) criteria1.setProjection(Projections.rowCount()).uniqueResult()).intValue();
@@ -245,15 +251,15 @@ public class UserDaoSevice implements UserDao {
 			System.out.println(s);
 			statistics.add(s);
 
-			session.flush();
+			//session.flush();
 		}
 
-		int row = statistics.size();
-		if (row / pageSize + 1 == pageIndex) {
-			statistics = statistics.subList((pageIndex - 1) * pageSize, row);
-		} else {
-			statistics = statistics.subList((pageIndex - 1) * pageSize, pageIndex * pageSize);
-		}
+//		int row = statistics.size();
+//		if (row / pageSize + 1 == pageIndex) {
+//			statistics = statistics.subList((pageIndex - 1) * pageSize, row);
+//		} else {
+//			statistics = statistics.subList((pageIndex - 1) * pageSize, pageIndex * pageSize);
+//		}
 
 		tStatistics.setStatistics(statistics);
 
