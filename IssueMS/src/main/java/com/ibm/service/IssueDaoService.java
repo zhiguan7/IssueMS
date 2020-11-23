@@ -111,7 +111,7 @@ public class IssueDaoService implements IssueDao {
 	}
 	
 	
-	public Total_Issue searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
+	public Total_Issue searchWithFuzzy(Issue issue,String userId,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
@@ -119,6 +119,9 @@ public class IssueDaoService implements IssueDao {
 		
 		if(issue.getIssueId()!=0) {
 			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
+		}
+		if(userId!=null) {
+			criteria.add(Restrictions.and(Restrictions.eq("userId",userId)));
 		}
 		if(issue.getStatus()!=null) {
 			criteria.add(Restrictions.and(Restrictions.eq("status", issue.getStatus())));
