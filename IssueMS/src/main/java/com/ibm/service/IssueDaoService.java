@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -101,13 +102,6 @@ public class IssueDaoService implements IssueDao {
 	
 	
 	public Total_Issue searchWithFuzzy(Issue issue,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
-		System.out.println("------------------------------");
-		System.out.println(issue);
-		System.out.println(createDate2);
-		System.out.println(updateDate2);
-		System.out.println(pageIndex);
-		System.out.println(pageSize);
-		System.out.println("------------------------------");
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
@@ -131,6 +125,7 @@ public class IssueDaoService implements IssueDao {
 		if(issue.getUpdateDate()!=null&&updateDate2!=null) {
 			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
 		}	
+		criteria.addOrder(Order.desc("createDate"));
 		criteria.setFirstResult((pageIndex-1)*pageSize); //需要修改
 		criteria.setMaxResults(pageSize);
 		tIssue.setIssue(criteria.list());
