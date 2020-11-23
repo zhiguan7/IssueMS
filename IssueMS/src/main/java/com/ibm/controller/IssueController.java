@@ -66,10 +66,19 @@ public class IssueController {
 		i.setStatus(issue.get("status"));
 		i.setCreateMan(issue.get("createMan"));
 		i.setUpdateMan(issue.get("updateMan"));
-		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("date4");
+		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("updateDate"), u2 = issue.get("date4");
 		Date c3 = null ,u3 = null;
 		if (c1!=null) {
 			i.setCreateDate(format.parse(c1));
+		}
+		if (u1!=null) {
+			i.setCreateDate(format.parse(u1));
+		}
+		if (c2!=null) {
+			c3 = format.parse(c2);
+		}
+		if (u2!=null) {
+			u3 = format.parse(u2);
 		}
 //		i.setCreateDate(new Date(issue.get("createdate1")));
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
