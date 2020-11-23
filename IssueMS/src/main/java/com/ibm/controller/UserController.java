@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,7 +75,8 @@ public class UserController {
 		return ts;
 	}
 	
-	@RequestMapping(value = "/searchUser")
+	@CrossOrigin
+	@PostMapping(value = "/searchUser")
 	public Total_User AdminFuzzyquery(@RequestBody Map<String, String> user) throws SQLException, IOException{
 		
 		Total_User ts	=null;
