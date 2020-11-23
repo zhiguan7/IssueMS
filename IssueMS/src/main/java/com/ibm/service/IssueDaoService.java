@@ -209,7 +209,7 @@ public class IssueDaoService implements IssueDao {
 //			session.getTransaction().commit(); 
 			
 			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
-			i.setStatus("关闭");
+			i.setStatus("已完成");
 			i.setFinalDate(new Date());
 			i.setIssueId(issue.getIssueId());
 			session.update(i);
