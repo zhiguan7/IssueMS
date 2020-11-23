@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ibm.dao.IssueDao;
 import com.ibm.tables.Issue;
 import com.ibm.tables.Total_Issue;
+import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import javassist.expr.NewArray;
@@ -91,13 +92,22 @@ public class IssueDaoService implements IssueDao {
 	public int update(Issue issue) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		SQLQuery query = session.createSQLQuery("update issue set solution = ? where issue_id = ?");
-		query.setString(1, issue.getSolution());
-		query.setInteger(2, issue.getIssueId());
-		int i = query.executeUpdate();
+//		SQLQuery query = session.createSQLQuery("update issue set solution = ? where issue_id = ?");
+//		query.setString(1, issue.getSolution());
+//		query.setInteger(2, issue.getIssueId());
+//		int i = query.executeUpdate();
+		try {
+			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
+			i.setSolution(issue.getSolution());
+			i.setIssueId(issue.getIssueId());
+			session.update(i);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 		tx.commit();
 //		session.close();
-		return i;
+		return 1;
 	}
 	
 	
@@ -162,16 +172,21 @@ public class IssueDaoService implements IssueDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Query query = session.createQuery("update Issue set status = '待解决'  where issue_id = :id");
-			query.setParameter("id", issue.getIssueId());
-			query.executeUpdate(); 
-			session.getTransaction().commit();
+//			Query query = session.createQuery("update Issue set status = '待解决'  where issue_id = :id");
+//			query.setParameter("id", issue.getIssueId());
+//			query.executeUpdate(); 
+//			session.getTransaction().commit();
+			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
+			i.setStatus("待解决");
+			i.setIssueId(issue.getIssueId());
+			session.update(i);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		} 
-	    session.close();
+		tx.commit();
+//	    session.close();
 		return true;
 	}
 
@@ -181,20 +196,27 @@ public class IssueDaoService implements IssueDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Query query = session.createQuery("update Issue set status = '关闭'  where issue_id = :id");
-			query.setParameter("id", issue.getIssueId());
-			query.executeUpdate();
-			Query query1 = session.createQuery("update Issue set final_date = :time  where issue_id = :id");
-			query1.setParameter("id", issue.getIssueId());
-			query1.setParameter("time", new Date(System.currentTimeMillis()));
-			query1.executeUpdate();
-			session.getTransaction().commit(); 
+//			Query query = session.createQuery("update Issue set status = '关闭'  where issue_id = :id");
+//			query.setParameter("id", issue.getIssueId());
+//			query.executeUpdate();
+//			Query query1 = session.createQuery("update Issue set final_date = :time  where issue_id = :id");
+//			query1.setParameter("id", issue.getIssueId());
+//			query1.setParameter("time", new Date(System.currentTimeMillis()));
+//			query1.executeUpdate();
+//			session.getTransaction().commit(); 
+			
+			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
+			i.setStatus("关闭");
+			i.setFinalDate(new Date());
+			i.setIssueId(issue.getIssueId());
+			session.update(i);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-	    session.close();
+//	    session.close();
+		tx.commit();
 		return true;
 	}
 }
