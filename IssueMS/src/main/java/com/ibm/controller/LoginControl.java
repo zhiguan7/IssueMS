@@ -33,8 +33,12 @@ public class LoginControl {
 		String userid = user.getUserId();
 		String password = user.getPassword();
 		User user1 = userDaoSevice.login(userid, password);
+		User user2 = new User();
+		user2.setUserId(user1.getUserId());
+		user2.setUserName(user1.getUserName());
+		user2.setIdentity(user1.getIdentity());
 //		System.out.println(user1);
-		return user1;
+		return user2;
 	}
 
 }
