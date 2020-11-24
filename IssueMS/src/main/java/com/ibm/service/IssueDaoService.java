@@ -222,4 +222,14 @@ public class IssueDaoService implements IssueDao {
 		tx.commit();
 		return true;
 	}
+
+	@Override
+	public Total_Issue searchWithGlobal(String string) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(Issue.class);
+		
+		return null;
+	}
 }

@@ -87,9 +87,18 @@ public class IssueController {
 		return tIssue;
 }
 	
+	//全局搜索
+	@CrossOrigin
+	@RequestMapping(value = "/search",method = RequestMethod.POST)
+	public Total_Issue searchGlobal(@RequestBody Map<String, String> receive) throws Exception{
+		Total_Issue tIssue = null;
+		tIssue = issueDao.searchWithGlobal(receive.get("send"));
+		return tIssue;
+}
+	
 	//退回修改
 	@CrossOrigin
-	@RequestMapping(value = "/back",method = RequestMethod.GET)
+	@RequestMapping(value = "/back",method = RequestMethod.POST)
 	public boolean Back(@RequestBody Map<String, Integer> i) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
@@ -101,7 +110,7 @@ public class IssueController {
 	
 	//关闭issue
 	@CrossOrigin
-	@RequestMapping(value = "/finish",method = RequestMethod.GET)
+	@RequestMapping(value = "/finish",method = RequestMethod.POST)
 	public boolean finish(@RequestBody Map<String, Integer> i) throws SQLException, IOException{
 		issueDao = new IssueDaoService();
 		Issue issue = new Issue();
