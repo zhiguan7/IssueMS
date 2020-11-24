@@ -236,11 +236,17 @@ public class IssueDaoService implements IssueDao {
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
 		Date date = null,date1 = null;
-		int len = string.length();
+		int len = string.length(),level = 0;
 		
-		criteria.add(Restrictions.or(Restrictions.eq("status", string)));
-		criteria.add(Restrictions.or(Restrictions.like("createMan",string ,MatchMode.ANYWHERE)));
-		criteria.add(Restrictions.or(Restrictions.like("updateMan",string ,MatchMode.ANYWHERE)));
+		if(string.equals("最高")) {
+			level = 4;
+		}else if (string.equals("较高")) {
+			level = 3;
+		}else if (string.equals("一般")) {
+			level = 2;
+		}else if (string.equals("低")) {
+			level = 1;
+		}
 		
 		date = format(string);
 		if(len==4) {
@@ -249,8 +255,18 @@ public class IssueDaoService implements IssueDao {
 				calendar.setTime(date); 
 				calendar.add(calendar.DATE,364); 
 				date1=calendar.getTime(); 
-				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
-				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("issueName",string ,MatchMode.ANYWHERE),
+						Restrictions.like("userId",string ,MatchMode.ANYWHERE),
+						Restrictions.eq("level", level),
+						Restrictions.eq("type", string),
+						Restrictions.eq("beta", string),
+						Restrictions.between("createDate", date, date1)
+						));
+				List<Issue> list = criteria.list();
+				return list;
 			}
 		}else if(len==6||len==7){
 			if(date!=null) {
@@ -258,17 +274,46 @@ public class IssueDaoService implements IssueDao {
 				calendar.setTime(date); 
 				calendar.add(calendar.DATE,29); 
 				date1=calendar.getTime(); 
-				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
-				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("issueName",string ,MatchMode.ANYWHERE),
+						Restrictions.like("userId",string ,MatchMode.ANYWHERE),
+						Restrictions.eq("level", level),
+						Restrictions.eq("type", string),
+						Restrictions.eq("beta", string),
+						Restrictions.between("createDate", date, date1)
+						));
+				List<Issue> list = criteria.list();
+				return list;
 			}
 		}else {
 			if(date!=null) {
-			criteria.add(Restrictions.or(Restrictions.eq("createDate", date)));
-			criteria.add(Restrictions.or(Restrictions.eq("updateDate", date)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("issueName",string ,MatchMode.ANYWHERE),
+						Restrictions.like("userId",string ,MatchMode.ANYWHERE),
+						Restrictions.eq("level", level),
+						Restrictions.eq("type", string),
+						Restrictions.eq("beta", string),
+						Restrictions.eq("createDate", date)
+						));
+				List<Issue> list = criteria.list();
+				return list;
 			}
 		}
+		criteria.add(Restrictions.or(Restrictions.eq("status", string),
+				Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+				Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+				Restrictions.like("issueName",string ,MatchMode.ANYWHERE),
+				Restrictions.like("userId",string ,MatchMode.ANYWHERE),
+				Restrictions.eq("level", level),
+				Restrictions.eq("type", string),
+				Restrictions.eq("beta", string)
+				));
+
 		List<Issue> list = criteria.list();
-		
 		return list;
 	}
 	
