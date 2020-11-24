@@ -90,9 +90,18 @@ public class IssueController {
 	//全局搜索
 	@CrossOrigin
 	@RequestMapping(value = "/search",method = RequestMethod.POST)
-	public List<Issue> searchGlobal(@RequestBody Map<String, String> receive) throws Exception{
+	public List<Issue> searchGlobal(@RequestBody Map<String, String> receive){
 		List<Issue> list = null;
-		list = issueDao.searchWithGlobal(receive.get("send"));
+		try {
+			if(receive.get("send").equals("")||receive.get("send").trim().isEmpty()) {
+				return null;
+			}else {
+				list = issueDao.searchWithGlobal(receive.get("send"));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
 		return list;
 }
 	
