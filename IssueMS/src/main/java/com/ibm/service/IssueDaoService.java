@@ -157,6 +157,47 @@ public class IssueDaoService implements IssueDao {
 //		session.close();
 		return tIssue;
 	}
+	
+	public Total_Issue searchWithFuzzy2(Issue issue,String userId,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria criteria = session.createCriteria(Issue.class);
+		Total_Issue tIssue = new Total_Issue();
+		
+		if(issue.getIssueId()!=0) {
+			criteria.add(Restrictions.and(Restrictions.eq("issueId", issue.getIssueId())));
+		}
+		if(userId!=null) {
+			criteria.add(Restrictions.and(Restrictions.eq("userId",userId)));
+		}
+		if(issue.getStatus()!=null) {
+			criteria.add(Restrictions.and(Restrictions.eq("status", issue.getStatus())));
+		}
+		if(issue.getCreateMan()!=null) {
+			criteria.add(Restrictions.and(Restrictions.like("createMan",issue.getCreateMan() ,MatchMode.ANYWHERE)));
+		}
+		if(issue.getUpdateMan()!=null) {
+			criteria.add(Restrictions.and(Restrictions.like("updateMan",issue.getUpdateMan() ,MatchMode.ANYWHERE)));
+		}
+		if(issue.getCreateDate()!=null&&createDate2!=null) {
+			criteria.add(Restrictions.and(Restrictions.between("createDate", issue.getCreateDate(), createDate2)));
+		}
+		if(issue.getUpdateDate()!=null&&updateDate2!=null) {
+			criteria.add(Restrictions.and(Restrictions.between("updateDate", issue.getUpdateDate(), updateDate2)));
+		}	
+		criteria.addOrder(Order.desc("issueId"));
+		criteria.setFirstResult((pageIndex-1)*pageSize); 
+		criteria.setMaxResults(pageSize);
+		tIssue.setIssue(criteria.list());
+		
+		criteria.setFirstResult(0);
+		int allCounts = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		tIssue.setTotal(allCounts);
+		
+		tx.commit();
+//		session.close();
+		return tIssue;
+	}
 
 //	@Override
 //	public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException {

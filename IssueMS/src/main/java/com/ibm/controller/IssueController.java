@@ -56,6 +56,7 @@ public class IssueController {
 	    *  修改时间: updatedate1 至 updatedate2
 	 *
 	 * */
+	//模糊查询（按创建时间排序）
 	@CrossOrigin
 	@RequestMapping(value = "/searchIssue",method = RequestMethod.POST)
 	public Total_Issue searchFuzzy(@RequestBody Map<String, String> issue) throws Exception{
@@ -84,6 +85,38 @@ public class IssueController {
 //		i.setUpdateDate(new Date(issue.get("updatedate1")));
 		Total_Issue tIssue = null;
 		tIssue = issueDao.searchWithFuzzy(i,issue.get("userId"),c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
+		return tIssue;
+}
+	
+    //模糊查询（按issueId排序）
+	@CrossOrigin
+	@RequestMapping(value = "/searchIssue2",method = RequestMethod.POST)
+	public Total_Issue searchFuzzy2(@RequestBody Map<String, String> issue) throws Exception{
+		issueDao = new IssueDaoService();
+		Issue i = new Issue();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		i.setIssueId(Integer.parseInt(issue.get("issueId")));
+		i.setStatus(issue.get("status"));
+		i.setCreateMan(issue.get("createMan"));
+		i.setUpdateMan(issue.get("updateMan"));
+		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("updateDate"), u2 = issue.get("date4");
+		Date c3 = null ,u3 = null;  
+		if (c1!=null) { 
+			i.setCreateDate(format.parse(c1));
+		}
+		if (u1!=null) {
+			i.setUpdateDate(format.parse(u1));
+		}
+		if (c2!=null) {
+			c3 = format.parse(c2);
+		}
+		if (u2!=null) {
+			u3 = format.parse(u2);
+		}
+//		i.setCreateDate(new Date(issue.get("createdate1")));
+//		i.setUpdateDate(new Date(issue.get("updatedate1")));
+		Total_Issue tIssue = null;
+		tIssue = issueDao.searchWithFuzzy2(i,issue.get("userId"),c3,u3,Integer.parseInt(issue.get("pageIndex")),Integer.parseInt(issue.get("pageSize")));
 		return tIssue;
 }
 	

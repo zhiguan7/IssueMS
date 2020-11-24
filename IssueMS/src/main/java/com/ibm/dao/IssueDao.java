@@ -24,9 +24,12 @@ public interface IssueDao {
 	// 更新
 	public int update(Issue issue) throws SQLException, IOException;
 	
-	//模糊查询
+	//模糊查询（按创建时间排序）
     public Total_Issue searchWithFuzzy(Issue issue,String userId,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException;
     
+    //模糊查询（按issueId排序）
+    public Total_Issue searchWithFuzzy2(Issue issue,String userId,Date createDate2,Date updateDate2,int pageIndex,int pageSize) throws SQLException, IOException;
+   
     //分页查询
 //    public List<Issue> searchWithPage(int pageIndex,int pageSize) throws SQLException, IOException;
 
