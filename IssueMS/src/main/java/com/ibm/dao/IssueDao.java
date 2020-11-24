@@ -37,5 +37,5 @@ public interface IssueDao {
     public boolean closeChange(Issue issue) throws SQLException, IOException;
 
     //全局搜索
-	public Total_Issue searchWithGlobal(String string)throws SQLException, IOException;
+	public List<Issue> searchWithGlobal(String string)throws Exception;
 }

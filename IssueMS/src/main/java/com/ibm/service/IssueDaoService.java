@@ -3,8 +3,13 @@ package com.ibm.service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -28,6 +33,7 @@ import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import javassist.expr.NewArray;
+import sun.security.util.Length;
 
 @Service
 public class IssueDaoService implements IssueDao {
@@ -224,12 +230,132 @@ public class IssueDaoService implements IssueDao {
 	}
 
 	@Override
-	public Total_Issue searchWithGlobal(String string) throws SQLException, IOException {
+	public List<Issue> searchWithGlobal(String string) throws Exception {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(Issue.class);
+		Date date = null,date1 = null;
+		int len = string.length();
 		
-		return null;
+		criteria.add(Restrictions.or(Restrictions.eq("status", string)));
+		criteria.add(Restrictions.or(Restrictions.like("createMan",string ,MatchMode.ANYWHERE)));
+		criteria.add(Restrictions.or(Restrictions.like("updateMan",string ,MatchMode.ANYWHERE)));
+		
+		date = format(string);
+		if(len==4) {
+			if(date!=null) {
+				Calendar  calendar = new GregorianCalendar(); 
+				calendar.setTime(date); 
+				calendar.add(calendar.DATE,364); 
+				date1=calendar.getTime(); 
+				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+			}
+		}else if(len==6||len==7){
+			if(date!=null) {
+				Calendar  calendar = new GregorianCalendar(); 
+				calendar.setTime(date); 
+				calendar.add(calendar.DATE,29); 
+				date1=calendar.getTime(); 
+				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+			}
+		}else {
+			if(date!=null) {
+			criteria.add(Restrictions.or(Restrictions.eq("createDate", date)));
+			criteria.add(Restrictions.or(Restrictions.eq("updateDate", date)));
+			}
+		}
+		List<Issue> list = criteria.list();
+		
+		return list;
 	}
+	
+	//全局搜索日期处理
+	public Date format(String strDate) throws Exception {
+		Pattern pattern = Pattern
+	                .compile("^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))"
+	                		+ "[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?"
+	                		+ "((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|"
+	                		+ "(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|"
+	                		+ "(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?"
+	                		+ "((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))"
+	                		+ "(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$");
+	    Matcher m = pattern.matcher(strDate);
+	        
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		int len = strDate.length();
+		System.out.println(m.matches());
+		if(m.matches()) {
+			if(len==6||len==7) { 
+				String year = strDate.substring(0, 4);
+				String month = "";
+				if(len==7) {
+					month = strDate.substring(strDate.length()-2);
+				}else {
+					month = strDate.substring(strDate.length()-1);
+				}
+				if(Integer.parseInt(month)>12) {
+					return null;
+				}
+				String date = year + "-" + month + "-01";
+				return s.parse(date);
+			}
+			
+			if(len==10||len==9||len==8) {
+				String year = strDate.substring(0, 4);
+				String month = "";
+				String day = "";
+				String date = "";
+				System.out.println(year);
+				
+				if(len==10) {
+					month = strDate.substring(5,7);
+					day = strDate.substring(len-2);
+				}
+				if(len==8) {
+					month = strDate.substring(5,6);
+					day = strDate.substring(len-1);
+				}
+				if(len==9) {
+					month = strDate.substring(5,7);
+					day = strDate.substring(len-1);
+					if(!month.matches("[0-9]+")) {
+						month = strDate.substring(5,6);
+						day = strDate.substring(len-2);
+					}
+				}
+				date = year + "-" + month + "-" + day;
+				return s.parse(date);
+			}
+			return null;
+		}else {
+			if(len==4&&strDate.matches("[0-9]+")) {
+				String date = strDate +"-01-01";
+				return s.parse(date);
+				
+			}
+			if(len==6||len==7) { 
+				String year = strDate.substring(0, 4);
+				String month = "";
+				if(len==7) {
+					month = strDate.substring(strDate.length()-2);
+				}else {
+					month = strDate.substring(strDate.length()-1);
+				}
+				if(year.matches("[0-9]+")&&month.matches("[0-9]+")) {
+					if (month.equals("0")||month.equals("00")) {
+						return null;
+					}else {
+						String date = year + "-" + month + "-01";
+						return s.parse(date);
+					}
+				}
+			} 
+			return null;
+		}
+	}
+	
+	
 }

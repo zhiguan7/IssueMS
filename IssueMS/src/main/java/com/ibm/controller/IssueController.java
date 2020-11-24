@@ -67,8 +67,8 @@ public class IssueController {
 		i.setCreateMan(issue.get("createMan"));
 		i.setUpdateMan(issue.get("updateMan"));
 		String c1 = issue.get("createDate"),c2 = issue.get("date2") , u1 = issue.get("updateDate"), u2 = issue.get("date4");
-		Date c3 = null ,u3 = null;
-		if (c1!=null) {
+		Date c3 = null ,u3 = null;  
+		if (c1!=null) { 
 			i.setCreateDate(format.parse(c1));
 		}
 		if (u1!=null) {
@@ -90,10 +90,10 @@ public class IssueController {
 	//全局搜索
 	@CrossOrigin
 	@RequestMapping(value = "/search",method = RequestMethod.POST)
-	public Total_Issue searchGlobal(@RequestBody Map<String, String> receive) throws Exception{
-		Total_Issue tIssue = null;
-		tIssue = issueDao.searchWithGlobal(receive.get("send"));
-		return tIssue;
+	public List<Issue> searchGlobal(@RequestBody Map<String, String> receive) throws Exception{
+		List<Issue> list = null;
+		list = issueDao.searchWithGlobal(receive.get("send"));
+		return list;
 }
 	
 	//退回修改
