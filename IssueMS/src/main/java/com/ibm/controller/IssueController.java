@@ -96,7 +96,7 @@ public class IssueController {
 			if(receive.get("send").equals("")||receive.get("send").trim().isEmpty()) {
 				return null;
 			}else {
-				list = issueDao.searchWithGlobal(receive.get("send"));
+				list = issueDao.searchWithGlobal(receive.get("send").trim());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
