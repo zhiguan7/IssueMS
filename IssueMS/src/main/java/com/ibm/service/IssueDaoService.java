@@ -58,7 +58,7 @@ public class IssueDaoService implements IssueDao {
 		List<User> uList  = userservice.queryAll().getUsers();
 		int b = -1;
 		for(int a = 0;a<uList.size();a++) {
-			if(uList.get(a).getUserId().compareTo(issue.getUpdateMan())==0) {
+			if(uList.get(a).getUserName().compareTo(issue.getUpdateMan())==0) {
 				b=1;
 				}
 		}
