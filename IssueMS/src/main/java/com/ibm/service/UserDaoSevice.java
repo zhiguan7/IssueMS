@@ -154,18 +154,18 @@ public class UserDaoSevice implements UserDao {
 		}
 		if (result.isEmpty()) {
 			System.out.println("该用户不存在");
-			user.setIdentity("该用户不存在");
+			user.setIdentity("不存在");
 			return user;
 		} 
 		else if (!user.getPassword().equals(password)) {
 			
 			System.out.println("密码错误");
-			user.setIdentity("密码错误");
+			user.setIdentity("错误");
 			return user;
 		} else if (user.getStatus().equals("注销")) {
 			
 			System.out.println("用户已注销");
-			user.setIdentity("用户已注销");
+			user.setIdentity("注销");
 			return user;
 		} else {
 			user = result.get(0);
