@@ -339,7 +339,10 @@ public class IssueDaoService implements IssueDao {
 				if(len==7) {
 					month = strDate.substring(strDate.length()-2);
 				}else {
-					month = strDate.substring(strDate.length()-1);
+					month = strDate.substring(strDate.length()-2);
+					if(!month.matches("[0-9]+")) {
+						month = strDate.substring(strDate.length()-1);
+					}
 				}
 				if(Integer.parseInt(month)>12) {
 					return null;
@@ -360,14 +363,14 @@ public class IssueDaoService implements IssueDao {
 					day = strDate.substring(len-2);
 				}
 				if(len==8) {
-					month = strDate.substring(5,6);
-					day = strDate.substring(len-1);
+					month = strDate.substring(4,6);
+					day = strDate.substring(len-2);
 				}
 				if(len==9) {
 					month = strDate.substring(5,7);
-					day = strDate.substring(len-1);
+					day = strDate.substring(len-2);
 					if(!month.matches("[0-9]+")) {
-						month = strDate.substring(5,6);
+						month = strDate.substring(4,6);
 						day = strDate.substring(len-2);
 					}
 				}
@@ -387,7 +390,10 @@ public class IssueDaoService implements IssueDao {
 				if(len==7) {
 					month = strDate.substring(strDate.length()-2);
 				}else {
-					month = strDate.substring(strDate.length()-1);
+					month = strDate.substring(strDate.length()-2);
+					if(!month.matches("[0-9]+")) {
+						month = strDate.substring(strDate.length()-1);
+					}
 				}
 				if(year.matches("[0-9]+")&&month.matches("[0-9]+")) {
 					if (month.equals("0")||month.equals("00")) {
