@@ -72,7 +72,7 @@ public class IssueController {
 			i.setCreateDate(format.parse(c1));
 		}
 		if (u1!=null) {
-			i.setCreateDate(format.parse(u1));
+			i.setUpdateDate(format.parse(u1));
 		}
 		if (c2!=null) {
 			c3 = format.parse(c2);
