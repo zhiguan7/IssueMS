@@ -238,10 +238,6 @@ public class IssueDaoService implements IssueDao {
 		Date date = null,date1 = null;
 		int len = string.length();
 		
-		criteria.add(Restrictions.or(Restrictions.eq("status", string)));
-		criteria.add(Restrictions.or(Restrictions.like("createMan",string ,MatchMode.ANYWHERE)));
-		criteria.add(Restrictions.or(Restrictions.like("updateMan",string ,MatchMode.ANYWHERE)));
-		
 		date = format(string);
 		if(len==4) {
 			if(date!=null) {
@@ -249,8 +245,11 @@ public class IssueDaoService implements IssueDao {
 				calendar.setTime(date); 
 				calendar.add(calendar.DATE,364); 
 				date1=calendar.getTime(); 
-				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
-				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.between("createDate", date, date1),
+						Restrictions.between("updateDate", date, date1)));
 			}
 		}else if(len==6||len==7){
 			if(date!=null) {
@@ -258,17 +257,22 @@ public class IssueDaoService implements IssueDao {
 				calendar.setTime(date); 
 				calendar.add(calendar.DATE,29); 
 				date1=calendar.getTime(); 
-				criteria.add(Restrictions.or(Restrictions.between("createDate", date, date1)));
-				criteria.add(Restrictions.or(Restrictions.between("updateDate", date, date1)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.between("createDate", date, date1),
+						Restrictions.between("updateDate", date, date1)));
 			}
 		}else {
 			if(date!=null) {
-			criteria.add(Restrictions.or(Restrictions.eq("createDate", date)));
-			criteria.add(Restrictions.or(Restrictions.eq("updateDate", date)));
+				criteria.add(Restrictions.or(Restrictions.eq("status", string),
+						Restrictions.like("createMan",string ,MatchMode.ANYWHERE),
+						Restrictions.like("updateMan",string ,MatchMode.ANYWHERE),
+						Restrictions.eq("createDate", date),
+						Restrictions.eq("updateDate", date)));
 			}
 		}
 		List<Issue> list = criteria.list();
-		
 		return list;
 	}
 	
