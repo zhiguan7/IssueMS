@@ -107,22 +107,21 @@ public class UserDaoSevice implements UserDao {
 	public int UpdateAuthority(String userid) throws SQLException, IOException {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		try {
 //			User user = (User) session.get(User.class, userid);
 			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("userId", userid));
 			List<User> result = cr.list();
 			User user = result.get(0);
+			if(user.getIdentity().equals("超级Admin")) {
+				return 0;
+			}
 			user.setIdentity("经理");
 			session.update(user);
 			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
+//			session.close();
+			return 1;
 		}
-//		session.close();
-		return 1;
-	}
+
 
 //	public List<User> UsearchWithPage(int pageIndex, int pageSize) throws SQLException, IOException {
 //		Session session = factory.openSession();
