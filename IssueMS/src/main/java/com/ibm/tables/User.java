@@ -2,12 +2,15 @@ package com.ibm.tables;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User {
 
 	private String userId;
 	private String userName;
 	private String password;
 	private String email;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 	private String identity;
 	private String status;
