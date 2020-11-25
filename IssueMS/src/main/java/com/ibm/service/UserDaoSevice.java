@@ -251,7 +251,7 @@ public class UserDaoSevice implements UserDao {
 			s.setrNum(rNum);
 
 			criteria3.add(Restrictions.eq("status", "关闭"));
-			criteria3.add(Restrictions.eq("userId", i.getUserId()));
+			criteria3.add(Restrictions.eq("updateMan", i.getUserName()));
 			int aNum = ((Long) criteria3.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 			s.setaNum(aNum);
 
