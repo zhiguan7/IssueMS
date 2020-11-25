@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.ibm.tables.Issue;
+import com.ibm.tables.Issue_Image;
 import com.ibm.tables.Total_Issue;
 import com.ibm.tables.User;
 
@@ -41,4 +42,10 @@ public interface IssueDao {
 
     //全局搜索
 	public List<Issue> searchWithGlobal(String string)throws Exception;
+	
+	//上传图片
+	public int upLoadIssue_Image(Issue_Image image)throws SQLException;
+	
+	//获取图片
+	public Issue downloadIssue_Image(Issue issue)throws SQLException;
 }

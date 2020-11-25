@@ -1,5 +1,6 @@
 package com.ibm.service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -10,6 +11,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -28,6 +32,7 @@ import org.springframework.stereotype.Service;
 import com.ibm.dao.IssueDao;
 import com.ibm.dao.UserDao;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Issue_Image;
 import com.ibm.tables.Total_Issue;
 import com.ibm.tables.User;
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -450,4 +455,85 @@ public class IssueDaoService implements IssueDao {
 	}
 	
 	
+
+	@Override
+	public int upLoadIssue_Image(Issue_Image image) throws SQLException {
+		// TODO Auto-generated method stub
+        Session hibernateSession = factory.openSession();
+        Transaction tx = hibernateSession.beginTransaction();
+
+        try 
+        {
+            //将该图片转为二进制输入流（关键点二）
+            FileInputStream fis = new FileInputStream(image.getImage());
+            //设置一个byte数组，数组长度为该图片的字节数目（关键点三）
+            byte[] content = new byte[fis.available()];
+            //二进制流输入到数组（关键点四）
+            fis.read(content);
+            //备注：User类是一个映射数据库表的类
+//            User user = (User)session.getAttribute("user");
+            Issue issue = new Issue();
+            //设置该图片数组到这个对象的属性，该属性类型同样是byte[]类型（关键点四）
+            issue.setImage(content);
+            issue.setIssueId(image.getIssueId());
+            //hibernateSession.update(issue);
+            Issue i = (Issue) hibernateSession.get(Issue.class, issue.getIssueId());
+			i.setImage(issue.getImage());;;
+			i.setIssueId(issue.getIssueId());;
+			hibernateSession.update(i);
+			tx.commit();
+			hibernateSession.close();
+            
+        }
+        //如果上传的文件不符合要求会被拦截器拦截，并抛出NullPointerException异常
+        catch(NullPointerException e)
+        {
+            tx.rollback();
+//            request.setAttribute("sysMsg", "上传失败：文件过大或图片格式不符合要求");
+            hibernateSession.close();
+            return 2;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            tx.rollback();
+            hibernateSession.close();
+//            request.setAttribute("sysMsg", "服务器异常");
+            return 3;
+        }
+		return 1;
+	}
+
+	@Override
+	public Issue downloadIssue_Image(Issue issue) throws SQLException {
+		// TODO Auto-generated method stub
+
+        Session session = factory.openSession();
+        Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
+        //设置编码方式，用来解析图片（关键点一）
+        System.out.println(i.getImage());
+//        ServletOutputStream out = null;
+//        try 
+//        {
+//            //获取页面输出流（关键点二）
+//            out = response.getOutputStream();
+//            //获取User类中存储有图片二进制数据的数组（关键点三）
+//            byte[] img = user.getPicture();
+//            if(img == null)
+//            {
+//                return 0;
+//            }
+//            else
+//                //将图片载入输出流（关键点四）
+//                out.write(user.getPicture());
+//            out.flush();
+//            out.close();
+//        }
+//        catch (IOException e) 
+//        {
+//            e.printStackTrace();
+//        }
+//        //必须返回null（关键点五）
+		return i;
+	}
 }

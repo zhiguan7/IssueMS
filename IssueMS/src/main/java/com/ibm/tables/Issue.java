@@ -19,10 +19,22 @@ public class Issue {
 	private String solution;
 	private Date planDate;
 	private Date finalDate;
+	private byte[] image;
 	
 	public Issue() {
 	}
 	
+	
+	public byte[] getImage() {
+		return image;
+	}
+
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+
 	public Integer getIssueId() {
 		return issueId;
 	}

@@ -1,13 +1,22 @@
 package com.ibm.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,13 +24,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ibm.dao.IssueDao;
 import com.ibm.service.IssueDaoService;
 import com.ibm.tables.Issue;
+import com.ibm.tables.Issue_Image;
 import com.ibm.tables.Total_Issue;
+import com.mysql.jdbc.Blob;
+
+import io.micrometer.core.ipc.http.HttpSender.Request;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 @RestController
 public class IssueController {
@@ -183,5 +201,48 @@ public class IssueController {
 		System.out.println(issue2);
 		int i = issueDao.update(issue2);
 		return i;
+	}
+	
+	//上传issue截图
+	@RequestMapping(value="uploadImage",method={RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public int uploadImage(@RequestParam("image")MultipartFile file1,@RequestParam("issueId")int id,HttpServletRequest request,HttpServletResponse response) throws SQLException {
+		issueDao = new  IssueDaoService();
+		
+		System.out.println("-----------------"+file1);
+		 File file = null;
+         try {   
+            String originalFilename = file1.getOriginalFilename();
+            String[] filename = originalFilename.split("\\.");
+            file=File.createTempFile(filename[0], "."+filename[1]);
+            file1.transferTo(file);
+             file.deleteOnExit();        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		System.out.println("-----------------"+file);
+		System.out.println("+++++++++++++++++"+id);
+		Issue_Image image = new Issue_Image(file,id);
+		int i = issueDao.upLoadIssue_Image(image);
+		return 1 ;
+	}
+	@RequestMapping(value="downloadImage",method={RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public String downloadImage(@RequestParam("issueId")int id,HttpServletRequest request,HttpServletResponse response) throws SQLException, IOException {
+		issueDao = new  IssueDaoService();
+		Issue issue = new Issue();
+		issue.setIssueId(id);
+		issue = issueDao.downloadIssue_Image(issue);
+		if(issue.getImage().length==0) {
+			return "-1";
+		}
+		BufferedImage bi1 = ImageIO.read(new ByteArrayInputStream(issue.getImage()));
+	    Image image = SwingFXUtils.toFXImage(bi1, null);
+	    System.out.println(image);
+	    File outputfile  = new File("save.jpg");
+	    ImageIO.write(bi1,"jpg",outputfile);
+	    String url = outputfile.getAbsolutePath();
+	    outputfile.deleteOnExit(); 
+		return url;
 	}
 }

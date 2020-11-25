@@ -51,5 +51,8 @@
         <property name="finalDate" type="java.util.Date">
             <column name="final_date" />
         </property>
+        <property name="image" type="binary">
+            <column name="pic" />
+        </property>
     </class>
 </hibernate-mapping>
