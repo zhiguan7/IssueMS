@@ -111,6 +111,7 @@ public class IssueDaoService implements IssueDao {
 			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
 			i.setSolution(issue.getSolution());
 			i.setIssueId(issue.getIssueId());
+			i.setStatus(issue.getStatus());
 			session.update(i);
 		}catch (Exception e) {
 			e.printStackTrace();

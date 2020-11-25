@@ -198,6 +198,7 @@ public class IssueController {
 		Issue issue2 = new Issue();
 		issue2.setIssueId(issue.getIssueId());
 		issue2.setSolution(issue.getSolution());
+		issue2.setStatus("待验证");
 		System.out.println(issue2);
 		int i = issueDao.update(issue2);
 		return i;
