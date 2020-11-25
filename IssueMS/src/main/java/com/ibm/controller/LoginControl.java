@@ -37,6 +37,7 @@ public class LoginControl {
 		user2.setUserId(user1.getUserId());
 		user2.setUserName(user1.getUserName());
 		user2.setIdentity(user1.getIdentity());
+		user2.setEmail(user1.getEmail());
 //		System.out.println(user1);
 		return user2;
 	}

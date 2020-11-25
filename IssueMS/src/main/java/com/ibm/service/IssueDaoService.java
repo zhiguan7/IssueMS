@@ -57,7 +57,7 @@ public class IssueDaoService implements IssueDao {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		System.out.println(issue);
-		issue.setStatus("待解决");
+		issue.setStatus("待修改");
 		issue.setCreateDate(new Date());
 		UserDao userservice = new UserDaoSevice();
 		List<User> uList  = userservice.queryAll().getUsers();
@@ -233,7 +233,7 @@ public class IssueDaoService implements IssueDao {
 //			query.executeUpdate(); 
 //			session.getTransaction().commit();
 			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
-			i.setStatus("待解决");
+			i.setStatus("待修改");
 			i.setIssueId(issue.getIssueId());
 			session.update(i);
 		} catch (Exception e) {
