@@ -81,7 +81,12 @@ public class IssueController {
 		issueDao = new IssueDaoService();
 		Issue i = new Issue();
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		i.setIssueId(Integer.parseInt(issue.get("issueId")));
+		if(issue.get("issueId")==null) {
+			i.setIssueId(0);
+		}else {
+			i.setIssueId(Integer.parseInt(issue.get("issueId")));
+		}
+		
 		i.setStatus(issue.get("status"));
 		i.setCreateMan(issue.get("createMan"));
 		i.setUpdateMan(issue.get("updateMan"));
