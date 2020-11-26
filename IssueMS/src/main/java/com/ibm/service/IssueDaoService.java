@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,7 +59,10 @@ public class IssueDaoService implements IssueDao {
 		Transaction tx = session.beginTransaction();
 		System.out.println(issue);
 		issue.setStatus("待修改");
-		issue.setCreateDate(new Date());
+		Date date1 = new Date();
+		issue.setCreateDate(Addone(date1));
+		Date date2 = Add(issue.getPlanDate());
+		issue.setPlanDate(date2);
 		UserDao userservice = new UserDaoSevice();
 		List<User> uList  = userservice.queryAll().getUsers();
 		int b = -1;
@@ -197,6 +201,7 @@ public class IssueDaoService implements IssueDao {
 		criteria.setMaxResults(pageSize);
 		tIssue.setIssue(criteria.list());
 		
+		
 		criteria.setFirstResult(0);
 		int allCounts = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 		tIssue.setTotal(allCounts);
@@ -264,7 +269,8 @@ public class IssueDaoService implements IssueDao {
 			
 			Issue i = (Issue) session.get(Issue.class, issue.getIssueId());
 			i.setStatus("关闭");
-			i.setFinalDate(new Date());
+			Date date = new Date();
+			i.setFinalDate(Addone(date));
 			i.setIssueId(issue.getIssueId());
 			session.update(i);
 		} catch (Exception e) {
@@ -537,5 +543,21 @@ public class IssueDaoService implements IssueDao {
 //        }
 //        //必须返回null（关键点五）
 		return i;
+	}
+	
+	public Date Add(Date date) {
+		Calendar   calendar = new GregorianCalendar(); 
+		calendar.setTime(date); 
+		calendar.add(calendar.DATE,2); //把日期往后增加一天,整数  往后推,负数往前移动 
+		date=calendar.getTime(); //这个时间就是日期往后推一天的结果 
+		return date;
+	}
+	
+	public Date Addone(Date date) {
+		Calendar   calendar = new GregorianCalendar(); 
+		calendar.setTime(date); 
+		calendar.add(calendar.DATE,1); //把日期往后增加一天,整数  往后推,负数往前移动 
+		date=calendar.getTime(); //这个时间就是日期往后推一天的结果 
+		return date;
 	}
 }
