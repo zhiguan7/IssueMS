@@ -212,6 +212,7 @@ public class IssueController {
 	}
 	
 	//上传issue截图
+	@CrossOrigin
 	@RequestMapping(value="uploadImage",method={RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public int uploadImage(@RequestParam("image")MultipartFile file1,@RequestParam("issueId")int id,HttpServletRequest request,HttpServletResponse response) throws SQLException {
@@ -234,22 +235,24 @@ public class IssueController {
 		int i = issueDao.upLoadIssue_Image(image);
 		return 1 ;
 	}
-	@RequestMapping(value="downloadImage",method={RequestMethod.GET,RequestMethod.POST})
+	@CrossOrigin
+	@RequestMapping(value="/downloadImage",method=RequestMethod.POST)
 	@ResponseBody
-	public String downloadImage(@RequestParam("issueId")int id,HttpServletRequest request,HttpServletResponse response) throws SQLException, IOException {
+	public String downloadImage(@RequestBody Issue issue1) throws SQLException, IOException {
 		issueDao = new  IssueDaoService();
 		Issue issue = new Issue();
-		issue.setIssueId(id);
+		issue.setIssueId(issue1.getIssueId());
 		issue = issueDao.downloadIssue_Image(issue);
-		if(issue.getImage().length==0) {
+		System.out.println("======================="+issue1.getIssueId());
+		if(issue.getImage()==null) {
 			return "-1";
 		}
 		BufferedImage bi1 = ImageIO.read(new ByteArrayInputStream(issue.getImage()));
 	    Image image = SwingFXUtils.toFXImage(bi1, null);
 	    System.out.println(image);
-	    File outputfile  = new File("save.jpg");
+	    File outputfile  = new File("save"+new Date().getSeconds()+".jpg");
 	    ImageIO.write(bi1,"jpg",outputfile);
-	    String url = outputfile.getAbsolutePath();
+	    String url = outputfile.getPath();
 	    outputfile.deleteOnExit(); 
 		return url;
 	}

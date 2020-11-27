@@ -490,7 +490,7 @@ public class IssueDaoService implements IssueDao {
 			i.setIssueId(issue.getIssueId());;
 			hibernateSession.update(i);
 			tx.commit();
-			hibernateSession.close();
+//			hibernateSession.close();
             
         }
         //如果上传的文件不符合要求会被拦截器拦截，并抛出NullPointerException异常
